@@ -103,7 +103,8 @@ public class ServiceAskService {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listTasks;
     }
-
+    
+//jhjhjj
 //      public void addAskService(AskService ta) {
 //        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
 //        String Url = "http://41.226.11.252:11300/tasks/" + ta.getNom() + "/" + ta.getEtat();// création de l'URL
