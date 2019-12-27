@@ -68,7 +68,7 @@ public class WalkthruForm extends Form {
         
         Container tab1 = BorderLayout.centerAbsolute(BoxLayout.encloseY(
                 notesPlaceholder,
-                new Label("Keep track of your tasks", "WalkthruWhite"),
+                new Label("Fixit makes your life easier", "WalkthruWhite"),
                 new SpanLabel("Never miss an appointment, never forget about your " +
                                             "daily team meeting and remember when your favorite " +
                                             "team is playing.",  "WalkthruBody"),

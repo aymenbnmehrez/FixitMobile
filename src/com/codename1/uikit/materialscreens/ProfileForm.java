@@ -93,6 +93,9 @@ public class ProfileForm extends SideMenuBaseForm {
         addButtonBottom(arrowDown, "Surprise Party for Matt", 0xffc06f, false);
         setupSideMenu(res);
     }
+
+    public ProfileForm() {
+    }
     
     private void addButtonBottom(Image arrowDown, String text, int color, boolean first) {
         MultiButton finishLandingPage = new MultiButton(text);
@@ -124,4 +127,5 @@ public class ProfileForm extends SideMenuBaseForm {
     protected void showOtherForm(Resources res) {
         new StatsForm(res).show();
     }
+    
 }
