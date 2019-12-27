@@ -1,8 +1,7 @@
 package com.mycompany.myapp;
 
 
-import GUI.Forum;
-import GUI.ajoutPost;
+import GUI.HomeForm;
 import static com.codename1.ui.CN.*;
 import com.codename1.ui.Form;
 import com.codename1.ui.Dialog;
@@ -43,9 +42,8 @@ public class MyApplication {
             return;
         }
         new LoginForm(theme).show();
-        
-       // ajoutPost h = new ajoutPost();
-        //h.getF().show();
+//        HomeForm h = new HomeForm();
+//        h.getF().show();
     }
 
     public void stop() {
