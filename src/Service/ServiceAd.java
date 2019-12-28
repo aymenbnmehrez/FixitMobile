@@ -11,6 +11,7 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
@@ -19,13 +20,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  *
  * @author majdi
  */
 public class ServiceAd {
     
-    public ArrayList<Ad> parseListTaskJson(String json) {
+    public ArrayList<Ad> parseListTaskJson(String json){
 
         ArrayList<Ad> listTasks = new ArrayList<>();
 
@@ -59,18 +61,29 @@ public class ServiceAd {
 
                 float idAd = Float.parseFloat(obj.get("adId").toString());
 //                float idUser = Float.parseFloat(obj.get("user").toString()); 
-                SimpleDateFormat tempss = new SimpleDateFormat("yyyy-MM-dd");
-                String avail = tempss.format(ad.getAvailability());
-                String publishedat = tempss.format(ad.getPublished_at());
+             //   SimpleDateFormat tempss = new SimpleDateFormat("dd-MM-yyyy");
+              //  String avail = tempss.format(ad.getAvailability());
+              //  String publishedat = tempss.format(ad.getPublished_at());
                 
                 ad.setAd_id((int) idAd);
-              //  ad.setUser((int) idUser);
+              //  ad.setUser( (int) idUser);
                 ad.setName(obj.get("name").toString());
-                ad.setAvailability((Date) obj.get(avail));
-                ad.setDescription(obj.get("description").toString());
-                ad.setPublished_at((Date) obj.get(publishedat));
-                ad.setImage(obj.get("image").toString());
-                ad.setLocation(obj.get("location").toString());
+                
+               
+                    //  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//                Date Avail;
+
+// Date a =new Date((((Double)((Map<String, Object>)(obj.get("availability"))).get("timestamp")).longValue()*1000));
+// String s=a.toString();
+// ad.setAvailability(a);
+                  try {
+                ad.setAvailability(new SimpleDateFormat("yyyy-MM-dd").parse(obj.get("availability").toString()));
+                } catch (ParseException ex) {
+                }
+          ad.setDescription(obj.get("description").toString());
+          ad.setPublished_at(new Date((((Double)((Map<String, Object>)(obj.get("publishedAt"))).get("timestamp")).longValue()*1000)));
+          ad.setImage(obj.get("image").toString());
+          ad.setLocation(obj.get("location").toString());
                 
 
                 System.out.println(ad);
@@ -99,7 +112,7 @@ public class ServiceAd {
  
  public ArrayList<Ad> getList2(){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixitweb1/web/app_dev.php/client/displayMobileAds");  
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/displayMobileAds");  
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
