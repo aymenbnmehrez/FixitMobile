@@ -110,5 +110,6 @@ public class ServiceAd {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listTasks;
+        
     }
 }
