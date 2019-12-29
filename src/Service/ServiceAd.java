@@ -12,7 +12,6 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
-import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,13 +20,14 @@ import java.util.List;
 import java.util.Map;
 
 
+
 /**
  *
  * @author majdi
  */
 public class ServiceAd {
     
-    public ArrayList<Ad> parseListTaskJson(String json){
+    public ArrayList<Ad> parseListTaskJson(String json) throws ParseException {
 
         ArrayList<Ad> listTasks = new ArrayList<>();
 
@@ -61,43 +61,28 @@ public class ServiceAd {
 
                 float idAd = Float.parseFloat(obj.get("adId").toString());
 //                float idUser = Float.parseFloat(obj.get("user").toString()); 
-             //   SimpleDateFormat tempss = new SimpleDateFormat("dd-MM-yyyy");
-              //  String avail = tempss.format(ad.getAvailability());
-              //  String publishedat = tempss.format(ad.getPublished_at());
-                
+       
                 ad.setAd_id((int) idAd);
               //  ad.setUser( (int) idUser);
                 ad.setName(obj.get("name").toString());
-                
-               
-                    //  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//                Date Avail;
+   
 
-// Date a =new Date((((Double)((Map<String, Object>)(obj.get("availability"))).get("timestamp")).longValue()*1000));
-// String s=a.toString();
-// ad.setAvailability(a);
-                  try {
-                ad.setAvailability(new SimpleDateFormat("yyyy-MM-dd").parse(obj.get("availability").toString()));
-                } catch (ParseException ex) {
-                }
+ 
+          Date a =new Date((((Double)((Map<String, Object>)(obj.get("availability"))).get("timestamp")).longValue()*1000));
+          ad.setAvailability(a);
           ad.setDescription(obj.get("description").toString());
           ad.setPublished_at(new Date((((Double)((Map<String, Object>)(obj.get("publishedAt"))).get("timestamp")).longValue()*1000)));
           ad.setImage(obj.get("image").toString());
           ad.setLocation(obj.get("location").toString());
                 
-
                 System.out.println(ad);
-//LinkedHashMap<String,Object> obj1 =  (LinkedHashMap<String,Object>) obj.get("id") ;
-//           int pos = 1;
-//          
-//           //List<String> indexes = new ArrayList<String>(obj1.keySet()); // <== Parse
-//           e.setUsername(obj1.get("username").toString());
+
                 listTasks.add(ad);
 
             }
 
         } catch (IOException ex) {
-        }
+        } 
 
         /*
             A ce niveau on a pu récupérer une liste des tâches à partir
@@ -117,7 +102,10 @@ public class ServiceAd {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 ServiceAd ser = new ServiceAd();
-                listTasks = ser.parseListTaskJson(new String(con.getResponseData()));
+                try {
+                    listTasks = ser.parseListTaskJson(new String(con.getResponseData()));
+                } catch (ParseException ex) {
+                }
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(con);

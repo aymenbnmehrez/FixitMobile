@@ -7,8 +7,6 @@ package GUI;
 
 import Entity.Ad;
 import Service.ServiceAd;
-import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
-import com.codename1.charts.renderers.XYSeriesRenderer;
 import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
@@ -49,8 +47,10 @@ public class DisplayAds extends SideMenuBaseForm {
 
     public static String TITRE;
     public static Date AVAILABILITY;
+    public static Date PUBLISHED_AT;
     public static String DESCRIPTION;
     public static String IMAGE;
+    public static String LOCATION;
 
     public DisplayAds(Resources res) {
 
@@ -81,7 +81,7 @@ public class DisplayAds extends SideMenuBaseForm {
                         add(BorderLayout.CENTER, space).
                         add(BorderLayout.SOUTH,
                                 FlowLayout.encloseIn(
-                                        new Label("                        Ads", "WelcomeBlue")
+                                        new Label("                   Ads", "WelcomeBlue")
                                 ));
 
         titleComponent.setUIID("BottomPaddingContainer");
@@ -95,8 +95,8 @@ public class DisplayAds extends SideMenuBaseForm {
             Container c1 = new Container(new BoxLayout(BoxLayout.X_AXIS));
             Container c2 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
-            Label titreE = new Label("Titre: " + ad.getName());
-            String url = "http://localhost/fixitweb1/web/fixit/public/uploads/" + ad.getImage();
+            Label titreE = new Label(" " + ad.getName());
+            String url = "http://localhost/fixit/web/fixit/public/uploads/" + ad.getImage();
             try {
                 imc = EncodedImage.create("/load.png");
             } catch (Exception ex) {
@@ -114,13 +114,15 @@ public class DisplayAds extends SideMenuBaseForm {
             btnMore.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                                        TITRE = ad.getName();
+                    TITRE = ad.getName();
                     IMAGE = ad.getImage();
                     DESCRIPTION = ad.getDescription();
-                    AVAILABILITY =ad.getAvailability();
-                    DisplayMore ar =new DisplayMore(res);
+                    AVAILABILITY = ad.getAvailability();
+                    PUBLISHED_AT = ad.getPublished_at();
+                    LOCATION = ad.getLocation();
+                    DisplayMore ar = new DisplayMore(res);
 
-       ar.show();
+                    ar.show();
                 }
             });
 
@@ -132,55 +134,6 @@ public class DisplayAds extends SideMenuBaseForm {
         }
 
         ////////////////////////////////////////////////////////////////////////////////// 
-    }
-
-    private Image colorCircle(int color) {
-        int size = Display.getInstance().convertToPixels(3);
-        Image i = Image.createImage(size, size, 0);
-        Graphics g = i.getGraphics();
-        g.setColor(color);
-        g.fillArc(0, 0, size, size, 0, 360);
-        return i;
-    }
-
-    private XYMultipleSeriesRenderer createChartMultiRenderer() {
-        XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-        for (int color : COLORS) {
-            XYSeriesRenderer r = new XYSeriesRenderer();
-            r.setColor(color);
-            renderer.addSeriesRenderer(r);
-            r.setFillPoints(false);
-            XYSeriesRenderer.FillOutsideLine outline = new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.BELOW);
-            outline.setColor(color);
-            r.addFillOutsideLine(outline);
-            r.setLineWidth(5);
-        }
-        renderer.setPointSize(5f);
-        renderer.setLabelsColor(0);
-        renderer.setBackgroundColor(0xffffffff);
-        renderer.setApplyBackgroundColor(true);
-        renderer.setAxesColor(COLORS[0]);
-
-        renderer.setXTitle("");
-        renderer.setYTitle("");
-        renderer.setAxesColor(0xcccccc);
-        renderer.setLabelsColor(0);
-        renderer.setXLabels(5);
-        renderer.setYLabels(5);
-        renderer.setShowGrid(true);
-
-        renderer.setMargins(new int[]{0, 0, 0, 0});
-        renderer.setMarginsColor(0xffffff);
-
-        renderer.setShowLegend(false);
-
-        renderer.setXAxisMin(3);
-        renderer.setXAxisMax(8);
-        renderer.setYAxisMin(0);
-        renderer.setYAxisMax(10);
-
-        return renderer;
-
     }
 
     @Override
