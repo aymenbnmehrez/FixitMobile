@@ -2,6 +2,7 @@ package Service;
 
 
 import Entity.Category;
+import Entity.Service;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
@@ -23,12 +24,12 @@ import java.util.Map;
  *
  * @author aymen
  */
-public class ServiceCategory {
-       public ArrayList<Category> getCategory(){
-        ArrayList<Category> listcategorie = new ArrayList<>();
+public class ServiceService {
+       public ArrayList<Service> getService(int id ){
+        ArrayList<Service> listservice = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
 
-        con.setUrl("http://localhost/fixitweb1/web/app_dev.php/client/categorymob");
+        con.setUrl("http://localhost/fixitweb1/web/app_dev.php/client/servicemob/"+id);
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -36,19 +37,21 @@ public class ServiceCategory {
                 JSONParser jsonp = new JSONParser();
 
                 try {
-                    Map<String, Object> category = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
+                    Map<String, Object> service = jsonp.parseJSON(new CharArrayReader(new String(con.getResponseData()).toCharArray()));
 
-                    List<Map<String, Object>> list = (List<Map<String, Object>>) category.get("root");
+                    List<Map<String, Object>> list = (List<Map<String, Object>>) service.get("root");
 
                     for (Map<String, Object> obj : list) {
-                        Category cat=new Category();
+                        Service ser=new Service();
 
-                        float Id = Float.parseFloat(obj.get("categoryId").toString());
+                        float Id = Float.parseFloat(obj.get("serviceId").toString());
                        
-                        cat.setCategory_id((int) Id);
+                        ser.setService_id((int) Id);
                         
-                        cat.setCategory_picture(obj.get("image").toString());
-                        cat.setCategory_description(obj.get("description").toString());
+                        ser.setService_name(obj.get("name").toString());
+                        float note = Float.parseFloat(obj.get("note").toString());
+
+                        ser.setNote((int)note);
                      
 
                         //  ann.setDate_annonce(f.format(time));
@@ -57,7 +60,7 @@ public class ServiceCategory {
                         
                         
                         
-                        listcategorie.add(cat);
+                        listservice.add(ser);
                        // System.out.println(listcategorie);
                         //System.out.println(ann);
                     }
@@ -70,7 +73,7 @@ public class ServiceCategory {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
        
-        return listcategorie;
+        return listservice;
     }
    
 }

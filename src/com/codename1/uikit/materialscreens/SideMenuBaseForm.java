@@ -20,12 +20,16 @@
 package com.codename1.uikit.materialscreens;
 
 import GUI.DisplayAds;
+import GUI.DisplayCategory;
+import Service.ServiceCategory;
 import com.codename1.components.ToastBar;
 import com.codename1.ui.Container;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.util.Resources;
@@ -70,6 +74,16 @@ public abstract class SideMenuBaseForm extends Form {
         getToolbar().addMaterialCommandToSideMenu("  Forum", FontImage.MATERIAL_ACCESS_TIME,  e -> showOtherForm(res));
         getToolbar().addMaterialCommandToSideMenu("  Account Settings", FontImage.MATERIAL_SETTINGS,  e -> showOtherForm(res));
         getToolbar().addMaterialCommandToSideMenu("  Logout", FontImage.MATERIAL_EXIT_TO_APP,  e -> new LoginForm(res).show());
+         getToolbar().addMaterialCommandToSideMenu("  Service Caegorie ", FontImage.MATERIAL_SETTINGS, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                DisplayCategory sd = new DisplayCategory();
+                sd.DisplayCategory();
+                sd.getF().show();
+            }
+        }
+                 
+         );
     }
     
     protected abstract void showOtherForm(Resources res);
