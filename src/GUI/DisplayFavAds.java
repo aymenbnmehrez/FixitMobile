@@ -7,6 +7,7 @@ package GUI;
 
 import Entity.Ad;
 import Entity.AdFav;
+import Entity.User;
 import static GUI.DisplayAds.AVAILABILITY;
 import static GUI.DisplayAds.DESCRIPTION;
 import static GUI.DisplayAds.ID_AD;
@@ -17,6 +18,7 @@ import static GUI.DisplayAds.TITRE;
 import Service.ServiceAd;
 import Service.ServiceAdFav;
 import Service.ServiceSession;
+import Service.ServiceUser;
 import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
 import com.codename1.charts.renderers.XYSeriesRenderer;
 import com.codename1.components.ImageViewer;
@@ -104,7 +106,6 @@ public class DisplayFavAds extends SideMenuBaseForm {
        
         ServiceAdFav sf = new ServiceAdFav();
         ServiceAd sA = new ServiceAd();
-        //int idCurrent=ServiceSession.getInstance().getLoggedInUser().getId();
        // System.out.println(idCurrent);
         ArrayList<AdFav> listAdFav = sf.getListFav(1);
         ArrayList<Ad> listAd = sA.getList2();
@@ -138,7 +139,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     
-                     TITREE = ad.getName();
+                    TITREE = ad.getName();
                     IMAGEE = ad.getImage();
                     DESCRIPTIONN = ad.getDescription();
                     AVAILABILITYY = ad.getAvailability();
@@ -150,10 +151,23 @@ public class DisplayFavAds extends SideMenuBaseForm {
                     ar.show();
                 }
             });
+            
+            Button btndelete=new Button("delete");
+            
+            btndelete.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                   ServiceAdFav s=new ServiceAdFav();
+                   s.delete(adf.getAdFav_id());
+                   DisplayFavAds dd=new DisplayFavAds(res);
+                   dd.show();
+                }
+            });
 
             c1.add(imv);
             c1.add(titreE);
             c1.add(btnMore);
+            c1.add(btndelete);
             c2.add(c1);
             add(c2);
         }

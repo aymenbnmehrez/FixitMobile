@@ -14,6 +14,7 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,6 +116,18 @@ public class ServiceAdFav {
         System.out.println(listTasks);
         return listTasks;
 
+    }
+    
+    public void delete(int id) {
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/deleteFavorie/" +Integer.toString(id));
+            con.addResponseListener((ee) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+            Dialog.show("SuccÃ©s", "Favoris has been deleted", "ok", null);
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
     }
     
 }

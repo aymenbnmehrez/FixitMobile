@@ -84,15 +84,15 @@ public class DisplayMoreFav extends SideMenuBaseForm {
             new DisplayFavAds(res).show();
         });
 
-        Button ButtonLocation = new Button("Delete");
+        Button ButtonLocation = new Button("show Location");
         
         ButtonLocation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent o) {
                 locationn = DisplayFavAds.LOCATIONN;
                 System.out.println(locationn);
-                MapsDemo maCartee = new MapsDemo();
-                maCartee.start();
+                MapsDemoForFav maCarteee = new MapsDemoForFav();
+                maCarteee.start();
                 System.out.println(locationn);
             }
         });

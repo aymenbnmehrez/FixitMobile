@@ -98,17 +98,16 @@ public class DisplayMore extends SideMenuBaseForm {
         });
         
         ButtonFav.addActionListener((e)-> {
-//         
-            ServiceAdFav sf=new ServiceAdFav();
-//            ArrayList<AdFav> listAdFav = sf.getListFav(1);
-//            for (AdFav adf : listAdFav){
-//            if(DisplayAds.ID_AD !=adf.getIdAd()){
-                sf.favorie();
-//            }
-//            
-//            else 
-//                           Dialog.show("Warrning", " Ad already exit in your favorites!!", "ok", null);            
-//            }    
+         
+            ServiceAdFav s=new ServiceAdFav();
+            if(checkAdFav(DisplayAds.ID_AD)){
+                System.out.println("chek chek chek");
+                s.favorie();
+            }
+            
+            else 
+                           Dialog.show("Warrning", " Ad already exit in your favorites!!", "ok", null);            
+                
                 
         });
 
@@ -153,5 +152,21 @@ public class DisplayMore extends SideMenuBaseForm {
     protected void showOtherForm(Resources res) {
         new ProfileForm(res).show();
     }
-
+    
+    public boolean checkAdFav(int id){
+    
+        ServiceAdFav sf=new ServiceAdFav();
+            ArrayList<AdFav> listAdFav = sf.getListFav(1);
+            for (AdFav adf : listAdFav)
+            if(id==adf.getIdAd()){
+                return false;
+            }
+            else return true;
+        
+            return true;
+}
+    
+    
+    
+    
 }
