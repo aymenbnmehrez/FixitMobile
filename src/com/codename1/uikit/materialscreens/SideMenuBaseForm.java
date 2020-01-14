@@ -16,9 +16,9 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
  */
-
 package com.codename1.uikit.materialscreens;
 
+import Entity.User;
 import GUI.DisplayAds;
 import GUI.DisplayCategory;
 import Service.ServiceCategory;
@@ -55,26 +55,26 @@ public abstract class SideMenuBaseForm extends Form {
     public SideMenuBaseForm(Layout contentPaneLayout) {
         super(contentPaneLayout);
     }
-    
-    public void setupSideMenu(Resources res) {
+
+    public void setupSideMenu(Resources res, User u) {
         Image profilePic = res.getImage("photo.jpg");
         Image mask = res.getImage("round-mask.png");
         mask = mask.scaledHeight(mask.getHeight() / 4 * 3);
         profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
-        Label profilePicLabel = new Label("  Jennifer Wilson", profilePic, "SideMenuTitle");
+        Label profilePicLabel = new Label(u.getFirst_name() + " " + u.getLast_name(), profilePic, "SideMenuTitle");
         profilePicLabel.setMask(mask.createMask());
 
         Container sidemenuTop = BorderLayout.center(profilePicLabel);
         sidemenuTop.setUIID("SidemenuTop");
-        
+
         getToolbar().addComponentToSideMenu(sidemenuTop);
-        getToolbar().addMaterialCommandToSideMenu("  Ask For A Service ", FontImage.MATERIAL_DASHBOARD,  e -> new AskServiceForm(res).show());
-        getToolbar().addMaterialCommandToSideMenu("  My Requests", FontImage.MATERIAL_TRENDING_UP,  e -> new MyRequestForm(res).show());
-        getToolbar().addMaterialCommandToSideMenu("  Ads ", FontImage.MATERIAL_DASHBOARD,  e -> new DisplayAds(res).show());
-        getToolbar().addMaterialCommandToSideMenu("  Forum", FontImage.MATERIAL_ACCESS_TIME,  e -> showOtherForm(res));
-        getToolbar().addMaterialCommandToSideMenu("  Account Settings", FontImage.MATERIAL_SETTINGS,  e -> showOtherForm(res));
-        getToolbar().addMaterialCommandToSideMenu("  Logout", FontImage.MATERIAL_EXIT_TO_APP,  e -> new LoginForm(res).show());
-         getToolbar().addMaterialCommandToSideMenu("  Category ", FontImage.MATERIAL_DASHBOARD, new ActionListener() {
+        getToolbar().addMaterialCommandToSideMenu("  Ask For A Service ", FontImage.MATERIAL_DASHBOARD, e -> new AskServiceForm(res, u).show());
+        getToolbar().addMaterialCommandToSideMenu("  My Requests", FontImage.MATERIAL_TRENDING_UP, e -> new MyRequestForm(res, u).show());
+        getToolbar().addMaterialCommandToSideMenu("  Ads ", FontImage.MATERIAL_DASHBOARD, e -> new DisplayAds(res, u).show());
+        getToolbar().addMaterialCommandToSideMenu("  Forum", FontImage.MATERIAL_ACCESS_TIME, e -> showOtherForm(res));
+        getToolbar().addMaterialCommandToSideMenu("  Account Settings", FontImage.MATERIAL_SETTINGS, e -> new ClientProfile(res, u).show());
+        getToolbar().addMaterialCommandToSideMenu("  Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> new LoginForm(res).show());
+        getToolbar().addMaterialCommandToSideMenu("  Category ", FontImage.MATERIAL_DASHBOARD, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 DisplayCategory sd = new DisplayCategory();
@@ -82,9 +82,11 @@ public abstract class SideMenuBaseForm extends Form {
                 sd.getF().show();
             }
         }
-                 
-         ); getToolbar().addMaterialCommandToSideMenu("  Forum", FontImage.MATERIAL_EXIT_TO_APP,  e -> new Forum(res).show());
+        );
+        getToolbar().addMaterialCommandToSideMenu("Send Claim", FontImage.MATERIAL_WARNING, e -> new TicketForm(res, u).show());
+        getToolbar().addMaterialCommandToSideMenu("Forum", FontImage.MATERIAL_WARNING, e -> new Forum(res, u).show());
+
     }
-    
+
     protected abstract void showOtherForm(Resources res);
 }

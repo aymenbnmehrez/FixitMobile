@@ -6,6 +6,7 @@
 package com.codename1.uikit.materialscreens;
 
 import Entity.Post;
+import Entity.User;
 import Service.servicePost;
 
 /**
@@ -64,7 +65,7 @@ public class Forum extends SideMenuBaseForm {
     Form add;
     servicePost TS = new servicePost();
 
-    public Forum(Resources res) {
+    public Forum(Resources res,User u) {
         super(BoxLayout.y());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -130,7 +131,7 @@ mb.addActionListener((ActionListener) new ActionListener() {
         ajout.show();
         btnajout.addActionListener((s) -> {
             servicePost ser = new servicePost();
-            Post p = new Post(ttitle.getText(), tcontent.getText());
+            Post p = new Post(u.getId(),ttitle.getText(), tcontent.getText());
             ser.ajoutPost(p);
             showBack();
             
@@ -143,7 +144,7 @@ mb.addActionListener((ActionListener) new ActionListener() {
 
         add(c);
 
-        setupSideMenu(res);
+        setupSideMenu(res,u);
     }
 ////
 ////
@@ -179,7 +180,6 @@ mb.addActionListener((ActionListener) new ActionListener() {
 
     @Override
     protected void showOtherForm(Resources res) {
-        new Forum(res).show();
     }
 
 }

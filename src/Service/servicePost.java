@@ -26,7 +26,7 @@ public class servicePost {
 
     public void ajoutPost(Post p) {
         ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
-        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutmob?title="+p.getTitle()+"&content="+p.getContent();// création de l'URL
+        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutmob?title="+p.getTitle()+"&content="+p.getContent()+"&id="+p.getId();// création de l'URL
         con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
         con.addResponseListener((e) -> {

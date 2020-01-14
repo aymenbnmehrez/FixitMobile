@@ -5,6 +5,7 @@
  */
 package com.codename1.uikit.materialscreens;
 
+import Entity.User;
 import com.codename1.charts.ChartComponent;
 import com.codename1.charts.models.XYMultipleSeriesDataset;
 import com.codename1.charts.models.XYSeries;
@@ -37,7 +38,7 @@ public class MyRequestForm extends SideMenuBaseForm {
 //        new StatsForm(res).show();
 //    }
 
-    public MyRequestForm(Resources res) {
+    public MyRequestForm(Resources res,User u) {
         super(new BorderLayout());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -111,7 +112,7 @@ public class MyRequestForm extends SideMenuBaseForm {
         add(BorderLayout.CENTER,
                 enclosure);
 
-        setupSideMenu(res);
+        setupSideMenu(res,u);
     }
 
     private Image colorCircle(int color) {
@@ -123,10 +124,10 @@ public class MyRequestForm extends SideMenuBaseForm {
         return i;
     }
 
-    @Override
-    protected void showOtherForm(Resources res) {
-        new ProfileForm(res).show();
-    }
+//    @Override
+//    protected void showOtherForm(Resources re,User u) {
+//        new ProfileForm(res,u).show();
+//    }
 
     private XYMultipleSeriesRenderer createChartMultiRenderer() {
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
@@ -166,5 +167,9 @@ public class MyRequestForm extends SideMenuBaseForm {
 
         return renderer;
 
+    }
+
+    @Override
+    protected void showOtherForm(Resources res) {
     }
 }

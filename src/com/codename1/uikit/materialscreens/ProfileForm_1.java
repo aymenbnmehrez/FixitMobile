@@ -19,6 +19,7 @@
 
 package com.codename1.uikit.materialscreens;
 
+import Entity.User;
 import com.codename1.components.FloatingActionButton;
 import com.codename1.components.MultiButton;
 import com.codename1.ui.Button;
@@ -40,8 +41,8 @@ import com.codename1.ui.util.Resources;
  *
  * @author Shai Almog
  */
-public class ProfileForm_1 extends SideMenuBaseForm {
-    public ProfileForm_1(Resources res) {
+public class ProfileForm_1 extends SideMenuBaseForm_1 {
+    public ProfileForm_1(Resources res,User u) {
         super(BoxLayout.y());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -71,7 +72,7 @@ public class ProfileForm_1 extends SideMenuBaseForm {
                         FlowLayout.encloseIn(menuButton),
                         BorderLayout.centerAbsolute(
                                 BoxLayout.encloseY(
-                                    new Label("Jennifer Wilson", "Title"),
+                                    new Label(u.getFirst_name(), "Title"),
                                     new Label("UI/UX Designer", "SubTitle")
                                 )
                             ).add(BorderLayout.WEST, profilePicLabel),
@@ -91,7 +92,7 @@ public class ProfileForm_1 extends SideMenuBaseForm {
         addButtonBottom(arrowDown, "Design app illustrations", 0x5ae29d, false);
         addButtonBottom(arrowDown, "Javascript training ", 0x4dc2ff, false);
         addButtonBottom(arrowDown, "Surprise Party for Matt", 0xffc06f, false);
-        setupSideMenu(res);
+        setupSideMenu(res,u);
     }
 
     public ProfileForm_1() {
@@ -125,7 +126,8 @@ public class ProfileForm_1 extends SideMenuBaseForm {
 
     @Override
     protected void showOtherForm(Resources res) {
-        new StatsForm(res).show();
     }
+
+
     
 }
