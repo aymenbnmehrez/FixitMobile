@@ -121,7 +121,7 @@ public class DisplayCategory {
       Label l= new Label();
        l.setText("Name : " +" "+ c.getCategory_name());
         affAnn.add(l);
-           String url= "http://localhost/fixitweb1/web/fixit/public/uploads/"+ c.getCategory_picture();
+           String url= "http://localhost/fixit/web/fixit/public/uploads/"+ c.getCategory_picture();
           try {
                    imc = EncodedImage.create("/load.png");
                } catch (Exception ex) {
