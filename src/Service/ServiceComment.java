@@ -101,9 +101,9 @@ public class ServiceComment {
     
     ArrayList<Comments> listTasks = new ArrayList<>();
     
-    public ArrayList<Comments> getList2(){       
+    public ArrayList<Comments> getList2(int id){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixit/web/app_dev.php/client/affichcommob");  
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/affichcommob/"+id);  
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
