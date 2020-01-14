@@ -43,8 +43,8 @@ import com.codename1.ui.util.Resources;
  *
  * @author Shai Almog
  */
-public class WalkthruForm extends Form {
-    public WalkthruForm(Resources res) {
+public class WalkthruForm_1 extends Form {
+    public WalkthruForm_1(Resources res) {
         super(new LayeredLayout());
         getTitleArea().removeAll();
         getTitleArea().setUIID("Container");
@@ -69,7 +69,7 @@ public class WalkthruForm extends Form {
         Container tab1 = BorderLayout.centerAbsolute(BoxLayout.encloseY(
                 notesPlaceholder,
                 new Label("Fixit makes your life easier", "WalkthruWhite"),
-                new SpanLabel("Welcome to our client interface"),
+                new SpanLabel("Welcome to our Provider interface"),
                 bottomSpace
         ));
         tab1.setUIID("WalkthruTab1");
@@ -116,7 +116,7 @@ public class WalkthruForm extends Form {
         
         Button skip = new Button("SKIP TUTORIAL");
         skip.setUIID("SkipButton");
-        skip.addActionListener(e -> new ProfileForm(res).show());
+        skip.addActionListener(e -> new ProfileForm_1(res).show());
         
         Container southLayout = BoxLayout.encloseY(
                         radioContainer,

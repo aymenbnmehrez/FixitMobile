@@ -28,7 +28,7 @@ public class ServiceCategory {
         ArrayList<Category> listcategorie = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
 
-        con.setUrl("http://localhost/fixitweb1/web/app_dev.php/client/categorymob");
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/categorymob");
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -46,7 +46,7 @@ public class ServiceCategory {
                         float Id = Float.parseFloat(obj.get("categoryId").toString());
                        
                         cat.setCategory_id((int) Id);
-                        
+                        cat.setCategory_name(obj.get("name").toString());
                         cat.setCategory_picture(obj.get("image").toString());
                         cat.setCategory_description(obj.get("description").toString());
                      
