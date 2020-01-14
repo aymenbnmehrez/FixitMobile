@@ -71,7 +71,7 @@ public class MapsDemo extends Form {
 
     private Form main;
     private Coord lastLocation;
-    
+  
    Resources theme = UIManager.initFirstTheme("/theme_1");
    
    
@@ -155,8 +155,8 @@ public class MapsDemo extends Form {
              
           
       
-       StringTokenizer st = new StringTokenizer(DisplayMore.location,",");  
-       st.toString();
+       StringTokenizer st = new StringTokenizer(DisplayMore.location,",");      
+       st.toString();    
            int z =0;
      while (st.hasMoreTokens()) {
          z++;
@@ -183,8 +183,8 @@ public class MapsDemo extends Form {
             
        p.setLatitude(latf);
        p.setLongitude(lonf);
-       
 
+       
             p.setDisplayName(true);
             pl.addPoint(p);
             pl.addActionListener(new ActionListener() {

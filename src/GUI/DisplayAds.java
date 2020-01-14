@@ -7,6 +7,7 @@ package GUI;
 
 import Entity.Ad;
 import Service.ServiceAd;
+import Service.ServiceSession;
 import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
@@ -46,12 +47,15 @@ public class DisplayAds extends SideMenuBaseForm {
     ImageViewer imv;
 
     public static String TITRE;
-    public static Date AVAILABILITY;
+    public static String AVAILABILITY;
     public static Date PUBLISHED_AT;
     public static String DESCRIPTION;
     public static String IMAGE;
     public static String LOCATION;
-
+    public static int ID_AD;
+    
+    
+    
     public DisplayAds(Resources res) {
 
         Toolbar tb = getToolbar();
@@ -69,14 +73,14 @@ public class DisplayAds extends SideMenuBaseForm {
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
         menuButton.addActionListener(e -> getToolbar().openSideMenu());
 
-        Button settingsButton = new Button("");
-        settingsButton.setUIID("Title");
-        FontImage.setMaterialIcon(settingsButton, FontImage.MATERIAL_SETTINGS);
+        Button favButton = new Button("");
+        favButton.setUIID("Title");
+        FontImage.setMaterialIcon(favButton, FontImage.MATERIAL_FAVORITE);
         Label space = new Label("", "TitlePictureSpace");
         space.setShowEvenIfBlank(true);
         Container titleComponent
                 = north(
-                        BorderLayout.west(menuButton).add(BorderLayout.EAST, settingsButton)
+                        BorderLayout.west(menuButton).add(BorderLayout.EAST, favButton)
                 ).
                         add(BorderLayout.CENTER, space).
                         add(BorderLayout.SOUTH,
@@ -86,10 +90,24 @@ public class DisplayAds extends SideMenuBaseForm {
 
         titleComponent.setUIID("BottomPaddingContainer");
         tb.setTitleComponent(titleComponent);
+        
+       // int idCurrent=ServiceSession.getInstance().getLoggedInUser().getId();
+        favButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+           // System.out.println("Current User:"+idCurrent);
+            new DisplayFavAds(res).show();
+            }
+        });
+        
+        
+        
+
 
         setupSideMenu(res);
 
-        ///////////////////////////////////////////////////////////////////      
+                    /* Affichage liste des annonces*/    
+        
         ServiceAd serviceAd = new ServiceAd();
         for (Ad ad : serviceAd.getList2()) {
             Container c1 = new Container(new BoxLayout(BoxLayout.X_AXIS));
@@ -120,6 +138,7 @@ public class DisplayAds extends SideMenuBaseForm {
                     AVAILABILITY = ad.getAvailability();
                     PUBLISHED_AT = ad.getPublished_at();
                     LOCATION = ad.getLocation();
+                    ID_AD=ad.getAd_id();
                     DisplayMore ar = new DisplayMore(res);
 
                     ar.show();
@@ -133,7 +152,7 @@ public class DisplayAds extends SideMenuBaseForm {
             add(c2);
         }
 
-        ////////////////////////////////////////////////////////////////////////////////// 
+                 /*-----------*/ 
     }
 
     @Override

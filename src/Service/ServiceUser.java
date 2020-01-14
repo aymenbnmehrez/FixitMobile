@@ -23,8 +23,8 @@ import java.util.Map;
  * @author aymen
  */
 public class ServiceUser {
-  private User loggedUser= new User();
-     
+  public User loggedUser= new User();
+  public static int idCurrent;
      public User Authentification(String username, String password) 
     {
         ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
@@ -91,7 +91,8 @@ public class ServiceUser {
                u.setFirst_name(obj.get("first_Name").toString());
                 u.setLast_name(obj.get("last_Name").toString());
                 u.setRoles(obj.get("roles").toString());
-             
+                idCurrent=u.getId();
+                System.out.println(""+idCurrent);
                 listUsers.add(u);
 
 

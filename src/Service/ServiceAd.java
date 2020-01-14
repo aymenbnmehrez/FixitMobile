@@ -12,6 +12,7 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,7 +70,8 @@ public class ServiceAd {
 
  
           Date a =new Date((((Double)((Map<String, Object>)(obj.get("availability"))).get("timestamp")).longValue()*1000));
-          ad.setAvailability(a);
+          SimpleDateFormat dateOnly = new SimpleDateFormat("MM/dd/yyyy");
+          ad.setAvailability(dateOnly.format(a));
           ad.setDescription(obj.get("description").toString());
           ad.setPublished_at(new Date((((Double)((Map<String, Object>)(obj.get("publishedAt"))).get("timestamp")).longValue()*1000)));
           ad.setImage(obj.get("image").toString());
