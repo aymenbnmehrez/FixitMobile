@@ -7,6 +7,7 @@ package com.codename1.uikit.materialscreens;
 
 import Entity.Categoryt;
 import Entity.Ticket;
+import Entity.User;
 import GUI.DisplayTicket;
 import Service.ServiceCategoryt;
 import Service.TicketService;
@@ -55,7 +56,7 @@ public class TicketForm extends SideMenuBaseForm {
     TicketService TS = new TicketService();
     Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
   ServiceCategoryt SC=new ServiceCategoryt();
-    public TicketForm(Resources res) {
+    public TicketForm(Resources res,User u) {
         super(BoxLayout.y());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -109,7 +110,7 @@ public class TicketForm extends SideMenuBaseForm {
                     });
                      FontImage iconn = FontImage.createMaterial(FontImage.MATERIAL_DELETE,s);
                     Detail.getToolbar().addCommandToRightBar("", iconn, (e) -> {
-                        TicketForm aaa=new TicketForm(res);
+                        TicketForm aaa=new TicketForm(res,u);
                         aaa.refreshTheme();
                         TS.delete(r.getIdTicket());
                          aaa.showBack();});
@@ -224,12 +225,11 @@ public class TicketForm extends SideMenuBaseForm {
 
         add(c);
 
-        setupSideMenu(res);
+        setupSideMenu(res,u);
     }
 
     @Override
     protected void showOtherForm(Resources res) {
-        new TicketForm(res).show();
     }
 
 }

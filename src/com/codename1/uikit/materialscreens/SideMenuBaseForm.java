@@ -85,7 +85,7 @@ public abstract class SideMenuBaseForm extends Form {
         }
                  
          );
-         getToolbar().addMaterialCommandToSideMenu("Send Claim", FontImage.MATERIAL_WARNING,  e ->new TicketForm(res).show());
+         getToolbar().addMaterialCommandToSideMenu("Send Claim", FontImage.MATERIAL_WARNING,  e ->new TicketForm(res,u).show());
     }
     
     protected abstract void showOtherForm(Resources res);
