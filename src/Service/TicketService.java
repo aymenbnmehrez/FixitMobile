@@ -168,10 +168,9 @@ public class TicketService {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
-
     public void delete(int id) {
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixit/web/app_dev.php/client/ticket/" + id);
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/ticket/delete/" +Integer.toString(id) );
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -180,5 +179,6 @@ public class TicketService {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
+    
 }
 

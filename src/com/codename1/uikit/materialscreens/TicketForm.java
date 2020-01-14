@@ -5,8 +5,10 @@
  */
 package com.codename1.uikit.materialscreens;
 
+import Entity.Categoryt;
 import Entity.Ticket;
 import GUI.DisplayTicket;
+import Service.ServiceCategoryt;
 import Service.TicketService;
 import com.codename1.capture.Capture;
 import com.codename1.components.FloatingActionButton;
@@ -14,6 +16,7 @@ import com.codename1.components.ImageViewer;
 import com.codename1.components.MultiButton;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.ui.Button;
+import com.codename1.ui.ComboBox;
 import static com.codename1.ui.Component.BOTTOM;
 import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
@@ -35,6 +38,7 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.list.MultiList;
 import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,7 +53,8 @@ public class TicketForm extends SideMenuBaseForm {
 
     Form add;
     TicketService TS = new TicketService();
-
+    Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
+  ServiceCategoryt SC=new ServiceCategoryt();
     public TicketForm(Resources res) {
         super(BoxLayout.y());
         Toolbar tb = getToolbar();
@@ -81,24 +86,33 @@ public class TicketForm extends SideMenuBaseForm {
         add(new Label("Your Claims ", "TodayTitle"));
         Container c = new Container(BoxLayout.y());
         int i;
-        for (Ticket r: TS.getList2()) {//Ticket r : TS.getList2()
+        for (Ticket r : TS.getList2()) {//Ticket r : TS.getList2()
             MultiButton mb = new MultiButton(r.getStatus());//r.getStatus()
             mb.setTextLine3(r.getDescription());//r.getDateTicket()
             TS.getList2();
             c.add(mb);
-mb.addActionListener((ActionListener) new ActionListener() {
+            mb.addActionListener((ActionListener) new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                     Form Detail =new Form(BoxLayout.y());
-                     
-                     Label desc=new Label(r.getDescription());
-                      Label stat=new Label(r.getStatus());
-                       Label date=new Label(r.getDateTicket());
-                       
-                     Detail.add(desc);
-                     Detail.add(stat);
-                     Detail.add(date);
-                             
+                    Form Detail = new Form(BoxLayout.y());
+
+                    Label desc = new Label(r.getDescription());
+                    Label stat = new Label(r.getStatus());
+                    Label date = new Label(r.getDateTicket());
+
+                    Detail.add(desc);
+                    Detail.add(stat);
+                    Detail.add(date);
+                    FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK,s);
+                    Detail.getToolbar().addCommandToLeftBar("", icon, (l) -> {
+                        showBack();
+                    });
+                     FontImage iconn = FontImage.createMaterial(FontImage.MATERIAL_DELETE,s);
+                    Detail.getToolbar().addCommandToRightBar("", iconn, (e) -> {
+                        TicketForm aaa=new TicketForm(res);
+                        aaa.refreshTheme();
+                        TS.delete(r.getIdTicket());
+                         aaa.showBack();});
                      Detail.show();
                 }
             });
@@ -106,7 +120,8 @@ mb.addActionListener((ActionListener) new ActionListener() {
         
         fab.addActionListener(e -> {
             add = new Form(new BorderLayout());
-
+              FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK,s);
+            add.getToolbar().addCommandToLeftBar("",icon, ev->{showBack();});
             //    Button cameraButton = new Button("Camera");
             FloatingActionButton cameraButton = FloatingActionButton.createFAB(FontImage.MATERIAL_CAMERA);
             cameraButton.getAllStyles().setMarginUnit(Style.UNIT_TYPE_PIXELS);
@@ -114,6 +129,10 @@ mb.addActionListener((ActionListener) new ActionListener() {
             Container centr = new Container(BoxLayout.yCenter());
             Container xc = new Container(BoxLayout.x());
             fab.getAllStyles().setMarginUnit(Style.UNIT_TYPE_PIXELS);
+            ComboBox categ=new ComboBox();
+         for (Categoryt r : SC.getList2()) {//Ticket r : TS.getList2()
+         categ.addItem(r.getCategory_name());
+         }
             TextField a = new TextField("", "Provider");
             TextArea b = new TextArea("", 10, 10);
             Button send = new Button("Send");
@@ -121,7 +140,7 @@ mb.addActionListener((ActionListener) new ActionListener() {
                 Ticket r=new Ticket();
                 r.setDescription(b.getText());
                 r.setStatus("Not Treated");
-                r.setImage("C:\\Users\\user\\Desktop\\riri.jpg");
+                r.setImage("");
                // r.setProvider(a);
                TS.ajoutticket(r);
             });
@@ -187,21 +206,16 @@ mb.addActionListener((ActionListener) new ActionListener() {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-                        // MultiList photoList = findPhotoList();
-//                    Hashtable tableItem = new Hashtable();
-//                    tableItem.put("icon", img.scaled(Display.getInstance().getDisplayHeight() / 10, -1));
-//                    tableItem.put("emblem", fileName);
-//                    photoList.getModel().addItem(tableItem);
-//                    // Do something, add to List
                     }
                 }
             }, Display.GALLERY_IMAGE);
             xc.add(galleryButton);
             xc.add(cameraButton);
             centr.add(xc);
+            centr.add(categ);
             centr.add(a);
             centr.add(b);
+          
             add.add(BorderLayout.CENTER, centr);
             add.add(BorderLayout.SOUTH, send);
             add.show();
@@ -212,37 +226,6 @@ mb.addActionListener((ActionListener) new ActionListener() {
 
         setupSideMenu(res);
     }
-////
-////
-////    /*  public Container addItem (Ticket p){
-////  Button btn=new Button();  
-////Label status=new Label(p.getStatus(),"WelcomeBlue");
-////Label desc=new Label(p.getDescription());
-////Label categ=new Label("categoryt");
-//////Label date=new Label(p.getDateTicket().toString());
-////Container c1=new Container(BoxLayout.y());
-////Container c2=new Container(BoxLayout.y());
-////Container c3=new Container(BoxLayout.x());
-////c1.add(status);
-//////c1.add(date);
-////c2.add(categ);
-////c2.add(desc);
-////
-////c3.add(c1);
-////c3.add(c2);
-////        btn.addActionListener(e -> {
-////            Form details = new Form(BoxLayout.y());
-////            Label age = new Label(String.valueOf(p.getStatus()));
-////           // Label image = new Label(theme_1.getImage(p.getImage()));
-////
-////          
-////           // details.add(image);
-////            details.add(age);
-////        });
-////        c3.add(btn);
-////        c3.setLeadComponent(btn);
-////        return c3;
-////}*/
 
     @Override
     protected void showOtherForm(Resources res) {
