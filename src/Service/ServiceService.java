@@ -29,7 +29,7 @@ public class ServiceService {
         ArrayList<Service> listservice = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
 
-        con.setUrl("http://localhost/fixitweb1/web/app_dev.php/client/servicemob/"+id);
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/servicemob/"+id);
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {

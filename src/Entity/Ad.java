@@ -15,7 +15,7 @@ public class Ad {
     
     private int ad_id;
     private String name;
-    private Date availability;
+    private String availability;
     private String description;
     private Date published_at;
     private String image;
@@ -26,7 +26,7 @@ public class Ad {
     public Ad() {
     }
 
-    public Ad(int ad_id, String name, Date availability, String description, Date published_at, String image, int user, int likes, String location) {
+    public Ad(int ad_id, String name, String availability, String description, Date published_at, String image, int user, int likes, String location) {
         this.ad_id = ad_id;
         this.name = name;
         this.availability = availability;
@@ -57,11 +57,11 @@ public class Ad {
         this.name = name;
     }
 
-    public Date getAvailability() {
+    public String getAvailability() {
         return availability;
     }
 
-    public void setAvailability(Date availability) {
+    public void setAvailability(String availability) {
         this.availability = availability;
     }
 

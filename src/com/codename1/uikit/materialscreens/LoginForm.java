@@ -18,9 +18,12 @@
  */
 package com.codename1.uikit.materialscreens;
 
+import Entity.User;
+import Service.ServiceUser;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.l10n.ParseException;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
@@ -112,6 +115,7 @@ public class LoginForm extends Form {
             con.addResponseListener(new ActionListener<NetworkEvent>() {
                 @Override
                 public void actionPerformed(NetworkEvent evt) {
+                    User u = new User();
 
                     String message = new String(con.getResponseData());
                     System.out.println(message);
@@ -122,11 +126,26 @@ public class LoginForm extends Form {
                     if (message.equals("false")) {
                         Dialog.show("ERROR !", "Login ou password incorrect", "OK", null);
 
-                    } else {
-                        Toolbar.setGlobalToolbar(false);
-                        new WalkthruForm(theme).show();
-                        Toolbar.setGlobalToolbar(true);
                     }
+
+                    if ((!message.equals("false"))) {
+                        ServiceUser ser = new ServiceUser();
+                        try {
+                            u = ser.parseUserJson(message);
+                        } catch (ParseException ex) {
+                        }
+                        System.out.println(u.getRoles());
+                        if ((u.getRoles().equals("[ROLE_CLIENT]"))) {
+                            Toolbar.setGlobalToolbar(false);
+                            new WalkthruForm(theme).show();
+                            Toolbar.setGlobalToolbar(true);
+                        } else {
+                            Toolbar.setGlobalToolbar(false);
+                            new WalkthruForm_1(theme).show();
+                            Toolbar.setGlobalToolbar(true);
+                        }
+                    }
+
                 }
 
             });
