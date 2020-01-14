@@ -1,6 +1,7 @@
 package com.mycompany.myapp;
 
 
+import GUI.Forum;
 import GUI.HomeForm;
 import static com.codename1.ui.CN.*;
 import com.codename1.ui.Form;
@@ -41,9 +42,9 @@ public class MyApplication {
             current.show();
             return;
         }
-        new LoginForm(theme).show();
-//        HomeForm h = new HomeForm();
-//        h.getF().show();
+       new LoginForm(theme).show();
+       //Forum h = new Forum();
+      // h.getF().show();
     }
 
     public void stop() {

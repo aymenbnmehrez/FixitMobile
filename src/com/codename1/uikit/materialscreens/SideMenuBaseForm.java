@@ -83,7 +83,7 @@ public abstract class SideMenuBaseForm extends Form {
             }
         }
                  
-         );
+         ); getToolbar().addMaterialCommandToSideMenu("  Forum", FontImage.MATERIAL_EXIT_TO_APP,  e -> new Forum(res).show());
     }
     
     protected abstract void showOtherForm(Resources res);

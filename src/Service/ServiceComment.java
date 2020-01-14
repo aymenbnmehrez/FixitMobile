@@ -5,12 +5,14 @@
  */
 package Service;
 
+import Entity.Comments;
 import Entity.Post;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.ui.Button;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,12 +23,14 @@ import java.util.Map;
  *
  * @author Amine
  */
-public class servicePost {
+public class ServiceComment {
     
-
-    public void ajoutPost(Post p) {
-        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
-        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutmob?title="+p.getTitle()+"&content="+p.getContent();// création de l'URL
+    
+    public void ajoutComment(Comments c) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion 
+       
+        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutcommob?comment="+c.getComment();// création de l'URL
+        
         con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
         con.addResponseListener((e) -> {
@@ -36,10 +40,12 @@ public class servicePost {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
     }
+    
+    
+    public ArrayList<Comments> parseListTaskJson(String json) {
+    Button btn = null;
 
-    public ArrayList<Post> parseListTaskJson(String json) {
-
-        ArrayList<Post> listTasks = new ArrayList<>();
+        ArrayList<Comments> listTasks = new ArrayList<>();
 
         try {
             JSONParser j = new JSONParser();// Instanciation d'un objet JSONParser permettant le parsing du résultat json
@@ -68,17 +74,14 @@ public class servicePost {
             //Parcourir la liste des tâches Json
             for (Map<String, Object> obj : list) {
                 //Création des tâches et récupération de leurs données
-                Post e = new Post();
+                Comments c = new Comments();
 
-               // float postId = Float.parseFloat(obj.get("postId").toString());
+               // float id = Float.parseFloat(obj.get("id").toString());
 
-                //e.setPost_id((int) postId);
-                e.setTitle(obj.get("title").toString());
-                e.setContent(obj.get("content").toString());
-               // e.setPost_date(obj.get("postDate").toString());
-
-                System.out.println(e);
-                listTasks.add(e);
+                //c.setId((int) id);
+                c.setComment(obj.get("comment").toString());
+                System.out.println(c);
+                listTasks.add(c);
 
             }
 
@@ -96,21 +99,23 @@ public class servicePost {
     }
     
     
-    ArrayList<Post> listTasks = new ArrayList<>();
+    ArrayList<Comments> listTasks = new ArrayList<>();
     
-    public ArrayList<Post> getList2(){       
+    public ArrayList<Comments> getList2(){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixit/web/app_dev.php/client/affichmob");  
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/affichcommob");  
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-                servicePost ser = new servicePost();
+                ServiceComment ser = new ServiceComment();
                 listTasks = ser.parseListTaskJson(new String(con.getResponseData()));
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listTasks;
     }
+
+    
 
     
 }
