@@ -28,7 +28,7 @@ public class ServiceCategory {
         ArrayList<Category> listcategorie = new ArrayList<>();
         ConnectionRequest con = new ConnectionRequest();
 
-        con.setUrl("http://localhost/fixitweb1/web/app_dev.php/client/categorymob");
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/categorymob");
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
