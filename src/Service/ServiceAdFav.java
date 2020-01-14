@@ -28,8 +28,8 @@ public class ServiceAdFav {
     
      public void favorie() {
         ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
-        int idCurrent=ServiceSession.getInstance().getLoggedInUser().getId();
-        String Url = "http://localhost/fixit/web/app_dev.php/client/favorite?user=" +idCurrent+"&idAd="+DisplayAds.ID_AD;// création de l'URL
+//        int idCurrent=ServiceSession.getInstance().getLoggedInUser().getId();
+        String Url = "http://localhost/fixit/web/app_dev.php/client/favorite?user=" +1+"&idAd="+DisplayAds.ID_AD;// création de l'URL
         con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
         con.addResponseListener((e) -> {
