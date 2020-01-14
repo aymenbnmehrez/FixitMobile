@@ -40,20 +40,20 @@ import com.codename1.ui.util.Resources;
  *
  * @author Shai Almog
  */
-public abstract class SideMenuBaseForm extends Form {
+public abstract class SideMenuBaseForm_1 extends Form {
 
-    public SideMenuBaseForm(String title, Layout contentPaneLayout) {
+    public SideMenuBaseForm_1(String title, Layout contentPaneLayout) {
         super(title, contentPaneLayout);
     }
 
-    public SideMenuBaseForm(String title) {
+    public SideMenuBaseForm_1(String title) {
         super(title);
     }
 
-    public SideMenuBaseForm() {
+    public SideMenuBaseForm_1() {
     }
 
-    public SideMenuBaseForm(Layout contentPaneLayout) {
+    public SideMenuBaseForm_1(Layout contentPaneLayout) {
         super(contentPaneLayout);
     }
     
@@ -62,29 +62,16 @@ public abstract class SideMenuBaseForm extends Form {
         Image mask = res.getImage("round-mask.png");
         mask = mask.scaledHeight(mask.getHeight() / 4 * 3);
         profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
-        Label profilePicLabel = new Label("  Jennifer Wilson", profilePic, "SideMenuTitle");
+        Label profilePicLabel = new Label(u.getFirst_name()+" "+u.getLast_name(), profilePic, "SideMenuTitle");
         profilePicLabel.setMask(mask.createMask());
 
         Container sidemenuTop = BorderLayout.center(profilePicLabel);
         sidemenuTop.setUIID("SidemenuTop");
         
         getToolbar().addComponentToSideMenu(sidemenuTop);
-        getToolbar().addMaterialCommandToSideMenu("  Ask For A Service ", FontImage.MATERIAL_DASHBOARD,  e -> new AskServiceForm(res,u).show());
-        getToolbar().addMaterialCommandToSideMenu("  My Requests", FontImage.MATERIAL_TRENDING_UP,  e -> new MyRequestForm(res,u).show());
-        getToolbar().addMaterialCommandToSideMenu("  Ads ", FontImage.MATERIAL_DASHBOARD,  e -> new DisplayAds(res,u).show());
-        getToolbar().addMaterialCommandToSideMenu("  Forum", FontImage.MATERIAL_ACCESS_TIME,  e -> showOtherForm(res));
-        getToolbar().addMaterialCommandToSideMenu("  Account Settings", FontImage.MATERIAL_SETTINGS,  e -> new ClientProfile(res,u).show());
+        getToolbar().addMaterialCommandToSideMenu("  Account Settings", FontImage.MATERIAL_SETTINGS,  e -> new ProviderProfile(res,u).show());
         getToolbar().addMaterialCommandToSideMenu("  Logout", FontImage.MATERIAL_EXIT_TO_APP,  e -> new LoginForm(res).show());
-         getToolbar().addMaterialCommandToSideMenu("  Category ", FontImage.MATERIAL_DASHBOARD, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                DisplayCategory sd = new DisplayCategory();
-                sd.DisplayCategory();
-                sd.getF().show();
-            }
-        }
-                 
-         );
+  
     }
     
     protected abstract void showOtherForm(Resources res);

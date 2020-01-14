@@ -7,6 +7,7 @@ package GUI;
 
 import Entity.Ad;
 import Entity.AdFav;
+import Entity.User;
 import static GUI.DisplayAds.AVAILABILITY;
 import static GUI.DisplayAds.DESCRIPTION;
 import static GUI.DisplayAds.ID_AD;
@@ -66,7 +67,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
     public static String IMAGEE;
     public static String LOCATIONN;
     public static int ID_ADD;
-    public DisplayFavAds(Resources res) {
+    public DisplayFavAds(Resources res,User u) {
 
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -97,7 +98,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
         titleComponent.setUIID("BottomPaddingContainer");
         tb.setTitleComponent(titleComponent);
 
-        setupSideMenu(res);
+        setupSideMenu(res,u);
 
         
                     /* Affichage liste des favoris*/
@@ -145,7 +146,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
                     PUBLISHED_ATT = ad.getPublished_at();
                     LOCATIONN = ad.getLocation();
                     ID_ADD=ad.getAd_id();
-                    DisplayMoreFav ar = new DisplayMoreFav(res);
+                    DisplayMoreFav ar = new DisplayMoreFav(res,u);
 
                     ar.show();
                 }
@@ -164,6 +165,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
 
     @Override
     protected void showOtherForm(Resources res) {
-        new ProfileForm(res).show();
     }
+
+
 }

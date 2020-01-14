@@ -132,24 +132,42 @@ public class LoginForm extends Form {
                         ServiceUser ser = new ServiceUser();
                         try {
                             u = ser.parseUserJson(message);
+
                         } catch (ParseException ex) {
                         }
+                        
                         System.out.println(u.getRoles());
-                        if ((u.getRoles().equals("[ROLE_CLIENT]"))) {
-                            Toolbar.setGlobalToolbar(false);
-                            new WalkthruForm(theme).show();
-                            Toolbar.setGlobalToolbar(true);
-                        } else {
-                            Toolbar.setGlobalToolbar(false);
-                            new WalkthruForm_1(theme).show();
-                            Toolbar.setGlobalToolbar(true);
-                        }
-                    }
+                        System.out.println(u.getFirst_name());
+                        System.out.println(u.getLast_name());
+                         
 
+               
+
+                if ((u.getRoles () 
+                    .equals("[ROLE_CLIENT]"))) {
+                            Toolbar.setGlobalToolbar(false);
+                    new WalkthruForm(theme,u).show();
+                    Toolbar.setGlobalToolbar(true);
                 }
 
-            });
-            NetworkManager.getInstance().addToQueueAndWait(con);
+                
+                    else {
+                    //ProviderProfile pp = new ProviderProfile();
+                      //    pp.setUser(u.getFirst_name());
+                            Toolbar.setGlobalToolbar(false);
+                    new WalkthruForm_1(theme,u).show();
+                    Toolbar.setGlobalToolbar(true);
+                }
+            }
+
+        }
+
+    }
+
+    );
+    NetworkManager.getInstance ()
+
+.addToQueueAndWait(con);
 
         });
 

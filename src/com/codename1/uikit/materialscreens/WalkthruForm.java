@@ -19,6 +19,7 @@
 
 package com.codename1.uikit.materialscreens;
 
+import Entity.User;
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
@@ -44,7 +45,7 @@ import com.codename1.ui.util.Resources;
  * @author Shai Almog
  */
 public class WalkthruForm extends Form {
-    public WalkthruForm(Resources res) {
+    public WalkthruForm(Resources res,User u) {
         super(new LayeredLayout());
         getTitleArea().removeAll();
         getTitleArea().setUIID("Container");
@@ -116,7 +117,7 @@ public class WalkthruForm extends Form {
         
         Button skip = new Button("SKIP TUTORIAL");
         skip.setUIID("SkipButton");
-        skip.addActionListener(e -> new ProfileForm(res).show());
+        skip.addActionListener(e -> new ProfileForm(res,u).show());
         
         Container southLayout = BoxLayout.encloseY(
                         radioContainer,

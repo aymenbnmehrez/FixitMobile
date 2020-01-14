@@ -43,7 +43,7 @@ import com.codename1.ui.util.Resources;
  *
  * @author Shai Almog
  */
-public class AskServiceForm extends SideMenuBaseForm_1 {
+public class ProviderProfile extends SideMenuBaseForm_1 {
 
     String u;
 
@@ -53,7 +53,7 @@ public class AskServiceForm extends SideMenuBaseForm_1 {
 
     }
 
-    public AskServiceForm(Resources res, User u) {
+    public ProviderProfile(Resources res, User u) {
         super(BoxLayout.y());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -107,7 +107,7 @@ public class AskServiceForm extends SideMenuBaseForm_1 {
         setupSideMenu(res, u);
     }
 
-    public AskServiceForm() {
+    public ProviderProfile() {
     }
 
     private void addButtonBottom(Image arrowDown, String text, int color, boolean first) {
@@ -138,7 +138,7 @@ public class AskServiceForm extends SideMenuBaseForm_1 {
 
     @Override
     protected void showOtherForm(Resources res) {
+        new StatsForm(res).show();
     }
-
 
 }

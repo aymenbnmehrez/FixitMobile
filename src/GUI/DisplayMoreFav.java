@@ -7,6 +7,7 @@ package GUI;
 
 import Entity.Ad;
 import Entity.AdFav;
+import Entity.User;
 import static GUI.DisplayAds.ID_AD;
 import Service.ServiceAd;
 import Service.ServiceAdFav;
@@ -49,7 +50,7 @@ public class DisplayMoreFav extends SideMenuBaseForm {
     ImageViewer imv;
     public static String locationn;
 
-    public DisplayMoreFav(Resources res) {
+    public DisplayMoreFav(Resources res,User u) {
 
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -81,7 +82,7 @@ public class DisplayMoreFav extends SideMenuBaseForm {
                                 ));
 
         BackButton.addActionListener((s) -> {
-            new DisplayFavAds(res).show();
+            new DisplayFavAds(res,u).show();
         });
 
         Button ButtonLocation = new Button("Delete");
@@ -101,7 +102,7 @@ public class DisplayMoreFav extends SideMenuBaseForm {
         titleComponent.setUIID("BottomPaddingContainer");
         tb.setTitleComponent(titleComponent);
 
-        setupSideMenu(res);
+        setupSideMenu(res,u);
         Container C2 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Container C3 = new Container(new BoxLayout(BoxLayout.X_AXIS));
 
@@ -134,9 +135,12 @@ public class DisplayMoreFav extends SideMenuBaseForm {
 
     }
 
+    protected void showOtherForm(Resources res,User u) {
+        new ProfileForm(res,u).show();
+    }
+
     @Override
     protected void showOtherForm(Resources res) {
-        new ProfileForm(res).show();
     }
 
 }

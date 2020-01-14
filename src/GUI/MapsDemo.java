@@ -22,6 +22,7 @@
  */
 package GUI;
 
+import Entity.User;
 import com.codename1.location.Location;
 import com.codename1.location.LocationManager;
 import com.codename1.maps.Coord;
@@ -74,7 +75,7 @@ public class MapsDemo extends Form {
   
    Resources theme = UIManager.initFirstTheme("/theme_1");
    
-   
+   User u;
    
     public void init(Object context) {
         Resources theme = UIManager.initFirstTheme("/theme_1");
@@ -128,7 +129,7 @@ public class MapsDemo extends Form {
         Container C4 = new Container(new BoxLayout(BoxLayout.X_AXIS));
        
           backb.addActionListener((e) -> {
-                        DisplayAds aa = new DisplayAds(theme);
+                        DisplayAds aa = new DisplayAds(theme,u);
                         aa.show();
                     });
         

@@ -6,6 +6,7 @@
 package GUI;
 
 import Entity.Ad;
+import Entity.User;
 import Service.ServiceAd;
 import Service.ServiceSession;
 import com.codename1.components.ImageViewer;
@@ -56,7 +57,7 @@ public class DisplayAds extends SideMenuBaseForm {
     
     
     
-    public DisplayAds(Resources res) {
+    public DisplayAds(Resources res,User u) {
 
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -96,7 +97,7 @@ public class DisplayAds extends SideMenuBaseForm {
             @Override
             public void actionPerformed(ActionEvent evt) {
            // System.out.println("Current User:"+idCurrent);
-            new DisplayFavAds(res).show();
+            new DisplayFavAds(res,u).show();
             }
         });
         
@@ -104,7 +105,7 @@ public class DisplayAds extends SideMenuBaseForm {
         
 
 
-        setupSideMenu(res);
+        setupSideMenu(res,u);
 
                     /* Affichage liste des annonces*/    
         
@@ -139,7 +140,7 @@ public class DisplayAds extends SideMenuBaseForm {
                     PUBLISHED_AT = ad.getPublished_at();
                     LOCATION = ad.getLocation();
                     ID_AD=ad.getAd_id();
-                    DisplayMore ar = new DisplayMore(res);
+                    DisplayMore ar = new DisplayMore(res,u);
 
                     ar.show();
                 }
@@ -157,6 +158,7 @@ public class DisplayAds extends SideMenuBaseForm {
 
     @Override
     protected void showOtherForm(Resources res) {
-        new ProfileForm(res).show();
     }
+
+ 
 }
