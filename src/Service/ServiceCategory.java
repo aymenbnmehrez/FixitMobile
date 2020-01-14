@@ -46,7 +46,7 @@ public class ServiceCategory {
                         float Id = Float.parseFloat(obj.get("categoryId").toString());
                        
                         cat.setCategory_id((int) Id);
-                        
+                        cat.setCategory_name(obj.get("name").toString());
                         cat.setCategory_picture(obj.get("image").toString());
                         cat.setCategory_description(obj.get("description").toString());
                      

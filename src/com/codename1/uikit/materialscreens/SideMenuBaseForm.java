@@ -74,7 +74,7 @@ public abstract class SideMenuBaseForm extends Form {
         getToolbar().addMaterialCommandToSideMenu("  Forum", FontImage.MATERIAL_ACCESS_TIME,  e -> showOtherForm(res));
         getToolbar().addMaterialCommandToSideMenu("  Account Settings", FontImage.MATERIAL_SETTINGS,  e -> showOtherForm(res));
         getToolbar().addMaterialCommandToSideMenu("  Logout", FontImage.MATERIAL_EXIT_TO_APP,  e -> new LoginForm(res).show());
-         getToolbar().addMaterialCommandToSideMenu("  Service Caegorie ", FontImage.MATERIAL_SETTINGS, new ActionListener() {
+         getToolbar().addMaterialCommandToSideMenu("  Category ", FontImage.MATERIAL_DASHBOARD, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 DisplayCategory sd = new DisplayCategory();
