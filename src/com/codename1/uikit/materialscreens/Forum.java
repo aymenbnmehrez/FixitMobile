@@ -33,6 +33,7 @@ import com.codename1.io.FileSystemStorage;
 import com.codename1.ui.Button;
 import static com.codename1.ui.Component.BOTTOM;
 import static com.codename1.ui.Component.CENTER;
+import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
@@ -124,6 +125,45 @@ mb.addActionListener((ActionListener) new ActionListener() {
                                         System.out.println(cb);
  
                      }  
+                     
+                     
+                     
+                     
+
+                     Button addcom =new Button("add comment");
+                     Detail.add(addcom);
+                      addcom.addActionListener(e -> {
+                     Form ajoutcomm =new Form(BoxLayout.y());
+                     TextField tcomment;
+    Button btnajoutcom;
+
+                     tcomment = new TextField("","title");
+        btnajoutcom = new Button("add");
+        ajoutcomm.add(tcomment);
+        ajoutcomm.add(btnajoutcom);
+        ajoutcomm.show();
+        btnajoutcom.addActionListener((s) -> {
+            System.out.println(r.getPost_id());
+            ServiceComment serr = new ServiceComment();
+           // Comments c = new Comments( tcomment.getText(),);
+            serr.ajoutComment(tcomment.getText(),r.getPost_id());
+            showBack();
+            
+
+        });
+       
+
+        }
+        );
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
                      Detail.show();
                 }
             });
@@ -158,6 +198,7 @@ mb.addActionListener((ActionListener) new ActionListener() {
         add(c);
 
         setupSideMenu(res,u);
+        Button API=new Button("API");
     }
 ////
 ////

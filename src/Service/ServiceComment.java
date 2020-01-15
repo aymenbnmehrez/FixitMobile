@@ -26,10 +26,10 @@ import java.util.Map;
 public class ServiceComment {
     
     
-    public void ajoutComment(Comments c) {
+    public void ajoutComment(String c , int id) {
         ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion 
        
-        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutcommob?comment="+c.getComment();// création de l'URL
+        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutcomment/"+c+"/"+id;// création de l'URL
         
         con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
