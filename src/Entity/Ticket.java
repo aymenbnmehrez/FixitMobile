@@ -12,14 +12,15 @@ import java.util.Date;
  * @author user
  */
 public class Ticket {
-     private int idTicket;
+    private int idTicket;
     private int idUser;
     private String description;
     private User sender;
     private User provider;
-    private String dateTicket;
+    private Date dateTicket;
     private String status;
     private String image;
+    private int categ;
     public int getIdTicket() {
         return idTicket;
     }
@@ -44,11 +45,11 @@ public class Ticket {
         this.description = description;
     }
 
-    public String getDateTicket() {
+    public Date getDateTicket() {
         return dateTicket;
     }
 
-    public void setDateTicket(String dateTicket) {
+    public void setDateTicket(Date dateTicket) {
         this.dateTicket = dateTicket;
     }
 
@@ -87,11 +88,32 @@ public class Ticket {
         this.provider = provider;
     }
 
-    public Ticket(String description, User sender, User provider, String status, String image) {
+    public int getCateg() {
+        return categ;
+    }
+
+    public void setCateg(int categ) {
+        this.categ = categ;
+    }
+
+    public Ticket(String description, User sender, User provider, String status, String image,int categ) {
         this.description = description;
         this.sender = sender;
         this.provider = provider;
         this.status = status;
         this.image = image;
+        this.categ = categ;
     }
+
+    public Ticket(int idTicket, int idUser, String description, User sender, User provider, Date dateTicket, String status, String image, int categ) {
+        this.idTicket = idTicket;
+        this.idUser = idUser;
+        this.description = description;
+        this.sender = sender;
+        this.provider = provider;
+        this.dateTicket = dateTicket;
+        this.status = status;
+        this.image = image;
+        this.categ = categ;
+    } 
 }

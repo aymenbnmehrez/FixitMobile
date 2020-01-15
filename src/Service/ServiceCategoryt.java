@@ -61,9 +61,9 @@ public class ServiceCategoryt {
                 //Création des tâches et récupération de leurs données
                 Categoryt e = new Categoryt();
 
-                //float postId = Float.parseFloat(obj.get("postId").toString());
+                float id = Float.parseFloat(obj.get("id").toString());
 
-               // e.setPost_id((int) postId);
+                e.setId((int) id);
                 e.setCategory_name(obj.get("categoryName").toString());
                
 
@@ -111,15 +111,15 @@ public class ServiceCategoryt {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
-   public void deletecateg(int id) {
+  
+     public void delete(int id) {
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixit/web/app_dev.php/client/categ/" + id);
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/categ/delete/" + Integer.toString(id));
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-
-            }
+                    }
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
-    } 
+    }
 }
