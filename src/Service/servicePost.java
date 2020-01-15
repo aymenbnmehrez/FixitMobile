@@ -70,9 +70,9 @@ public class servicePost {
                 //Création des tâches et récupération de leurs données
                 Post e = new Post();
 
-               // float postId = Float.parseFloat(obj.get("postId").toString());
+                float postId = Float.parseFloat(obj.get("postId").toString());
 
-                //e.setPost_id((int) postId);
+                e.setPost_id((int) postId);
                 e.setTitle(obj.get("title").toString());
                 e.setContent(obj.get("content").toString());
                // e.setPost_date(obj.get("postDate").toString());

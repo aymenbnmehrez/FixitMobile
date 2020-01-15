@@ -12,6 +12,7 @@ package Entity;
 public class Comments {
      private String comment;
        private int id;
+    
 
     public String getComment() {
         return comment;
