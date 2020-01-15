@@ -68,7 +68,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
     public static String IMAGEE;
     public static String LOCATIONN;
     public static int ID_ADD;
-    public DisplayFavAds(Resources res) {
+    public DisplayFavAds(Resources res,User u) {
 
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -99,7 +99,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
         titleComponent.setUIID("BottomPaddingContainer");
         tb.setTitleComponent(titleComponent);
 
-        setupSideMenu(res);
+        setupSideMenu(res,u);
 
         
                     /* Affichage liste des favoris*/
@@ -107,7 +107,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
         ServiceAdFav sf = new ServiceAdFav();
         ServiceAd sA = new ServiceAd();
        // System.out.println(idCurrent);
-        ArrayList<AdFav> listAdFav = sf.getListFav(1);
+        ArrayList<AdFav> listAdFav = sf.getListFav(u.getId());
         ArrayList<Ad> listAd = sA.getList2();
        for (Ad ad : listAd) {
         for (AdFav adf : listAdFav) {
@@ -146,7 +146,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
                     PUBLISHED_ATT = ad.getPublished_at();
                     LOCATIONN = ad.getLocation();
                     ID_ADD=ad.getAd_id();
-                    DisplayMoreFav ar = new DisplayMoreFav(res);
+                    DisplayMoreFav ar = new DisplayMoreFav(res,u);
 
                     ar.show();
                 }
@@ -159,7 +159,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
                 public void actionPerformed(ActionEvent evt) {
                    ServiceAdFav s=new ServiceAdFav();
                    s.delete(adf.getAdFav_id());
-                   DisplayFavAds dd=new DisplayFavAds(res);
+                   DisplayFavAds dd=new DisplayFavAds(res,u);
                    dd.show();
                 }
             });
@@ -178,6 +178,7 @@ public class DisplayFavAds extends SideMenuBaseForm {
 
     @Override
     protected void showOtherForm(Resources res) {
-        new ProfileForm(res).show();
     }
+
+
 }

@@ -19,6 +19,7 @@
 
 package com.codename1.uikit.materialscreens;
 
+import Entity.User;
 import com.codename1.components.FloatingActionButton;
 import com.codename1.components.MultiButton;
 import com.codename1.ui.Button;
@@ -41,7 +42,7 @@ import com.codename1.ui.util.Resources;
  * @author Shai Almog
  */
 public class ProfileForm extends SideMenuBaseForm {
-    public ProfileForm(Resources res) {
+    public ProfileForm(Resources res,User u) {
         super(BoxLayout.y());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -91,11 +92,10 @@ public class ProfileForm extends SideMenuBaseForm {
         addButtonBottom(arrowDown, "Design app illustrations", 0x5ae29d, false);
         addButtonBottom(arrowDown, "Javascript training ", 0x4dc2ff, false);
         addButtonBottom(arrowDown, "Surprise Party for Matt", 0xffc06f, false);
-        setupSideMenu(res);
+        setupSideMenu(res,u);
     }
 
-    public ProfileForm() {
-    }
+  
     
     private void addButtonBottom(Image arrowDown, String text, int color, boolean first) {
         MultiButton finishLandingPage = new MultiButton(text);
@@ -125,7 +125,8 @@ public class ProfileForm extends SideMenuBaseForm {
 
     @Override
     protected void showOtherForm(Resources res) {
-        new StatsForm(res).show();
     }
+
+ 
     
 }

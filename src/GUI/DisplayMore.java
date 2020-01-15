@@ -7,6 +7,7 @@ package GUI;
 
 import Entity.Ad;
 import Entity.AdFav;
+import Entity.User;
 import static GUI.DisplayAds.ID_AD;
 import Service.ServiceAd;
 import Service.ServiceAdFav;
@@ -48,8 +49,8 @@ public class DisplayMore extends SideMenuBaseForm {
     Image img;
     ImageViewer imv;
     public static String location;
-
-    public DisplayMore(Resources res) {
+    public static User u;
+    public DisplayMore(Resources res,User u) {
 
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -81,7 +82,7 @@ public class DisplayMore extends SideMenuBaseForm {
                                 ));
 
         BackButton.addActionListener((s) -> {
-            new DisplayAds(res).show();
+            new DisplayAds(res,u).show();
         });
 
         Button ButtonLocation = new Button("show Location");
@@ -92,29 +93,32 @@ public class DisplayMore extends SideMenuBaseForm {
             public void actionPerformed(ActionEvent o) {
                 location = DisplayAds.LOCATION;
                 MapsDemo maCarte = new MapsDemo();
-                maCarte.start();
+                maCarte.start(res,u);
                 System.out.println(location);
             }
         });
         
-        ButtonFav.addActionListener((e)-> {
-         
-            ServiceAdFav s=new ServiceAdFav();
-            if(checkAdFav(DisplayAds.ID_AD)){
-                System.out.println("chek chek chek");
-                s.favorie();
-            }
+        ButtonFav.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
             
-            else 
-                           Dialog.show("Warrning", " Ad already exit in your favorites!!", "ok", null);            
+                ServiceAdFav sf=new ServiceAdFav();
+//                ArrayList<AdFav> listAdFav = sf.getListFav(u.getId());
+//                 for (AdFav adf : listAdFav)
+//                if(DisplayAds.ID_AD==adf.getIdAd()){
+                    sf.favorie(u.getId());
+//                }
+//                else Dialog.show("Error", "Favoris existe in your favorites", "ok", null);
                 
-                
+            
+
+            }
         });
 
         titleComponent.setUIID("BottomPaddingContainer");
         tb.setTitleComponent(titleComponent);
 
-        setupSideMenu(res);
+        setupSideMenu(res,u);
         Container C2 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Container C3 = new Container(new BoxLayout(BoxLayout.X_AXIS));
 
@@ -150,23 +154,14 @@ public class DisplayMore extends SideMenuBaseForm {
 
     @Override
     protected void showOtherForm(Resources res) {
-        new ProfileForm(res).show();
     }
     
-    public boolean checkAdFav(int id){
-    
-        ServiceAdFav sf=new ServiceAdFav();
-            ArrayList<AdFav> listAdFav = sf.getListFav(1);
-            for (AdFav adf : listAdFav)
-            if(id==adf.getIdAd()){
-                return false;
-            }
-            else return true;
-        
-            return true;
-}
+
     
     
     
     
+
+
+
 }

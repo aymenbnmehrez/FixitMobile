@@ -8,6 +8,7 @@ package Service;
 import Entity.Ad;
 import Entity.AdFav;
 import Entity.Post;
+import Entity.User;
 import GUI.DisplayAds;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
@@ -26,16 +27,17 @@ import java.util.Map;
  * @author majdi
  */
 public class ServiceAdFav {
-    
-     public void favorie() {
+  User u;  
+     public void favorie(int idU) {
         ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
 //        int idCurrent=ServiceSession.getInstance().getLoggedInUser().getId();
-        String Url = "http://localhost/fixit/web/app_dev.php/client/favorite?user=" +1+"&idAd="+DisplayAds.ID_AD;// création de l'URL
+        String Url = "http://localhost/fixit/web/app_dev.php/client/favorite?user=" +idU+"&idAd="+DisplayAds.ID_AD;// création de l'URL
         con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
         con.addResponseListener((e) -> {
             String str = new String(con.getResponseData());//Récupération de la réponse du serveur
             System.out.println(str);//Affichage de la réponse serveur sur la console
+            Dialog.show("success", "Favoris hasbeen add in your favorites", "ok", null);
 
         });
         NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
@@ -51,7 +53,7 @@ public class ServiceAdFav {
             public void actionPerformed(NetworkEvent evt) {
                 ServiceAdFav ser = new ServiceAdFav();
                 listAdFav = ser.parseListTaskJson(new String(con.getResponseData()));
-            }
+            }       
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listAdFav;
@@ -128,6 +130,22 @@ public class ServiceAdFav {
 
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+    
+    String str="";
+    public String check(int id){
+        
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/check/" +Integer.toString(id));
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                 str = new String(con.getResponseData());
+                 System.out.println(str);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return str;
     }
     
 }
