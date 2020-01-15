@@ -37,7 +37,6 @@ public class ServiceAdFav {
         con.addResponseListener((e) -> {
             String str = new String(con.getResponseData());//Récupération de la réponse du serveur
             System.out.println(str);//Affichage de la réponse serveur sur la console
-            //Dialog.show("success", "Favoris hasbeen add in your favorites", "ok", null);
 
         });
         NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
@@ -126,6 +125,7 @@ public class ServiceAdFav {
             con.addResponseListener((ee) -> {
             String str = new String(con.getResponseData());
             System.out.println(str);
+            Dialog.show("success", "Favoris has been deleted from your favorites", "ok", null);
 
         });
         NetworkManager.getInstance().addToQueueAndWait(con);

@@ -107,7 +107,7 @@ public class DisplayMore extends SideMenuBaseForm {
                 System.out.println(listAdFav);
                  if(sf.check(DisplayAds.ID_AD).isEmpty()){
                     sf.favorie(u.getId());
-                    Dialog.show("SuccÃ©s", "Favoris has been deleted", "ok", null);   
+                    Dialog.show("SuccÃ©s", "Favoris has been add to your favorites", "ok", null);   
                 }
                 else {
 
