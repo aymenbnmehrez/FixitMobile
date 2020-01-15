@@ -103,15 +103,17 @@ public class DisplayMore extends SideMenuBaseForm {
             public void actionPerformed(ActionEvent evt) {
             
                 ServiceAdFav sf=new ServiceAdFav();
-//                ArrayList<AdFav> listAdFav = sf.getListFav(u.getId());
-//                 for (AdFav adf : listAdFav)
-//                if(DisplayAds.ID_AD==adf.getIdAd()){
+                ArrayList<AdFav> listAdFav = sf.getListFav(u.getId());
+                System.out.println(listAdFav);
+                 if(sf.check(DisplayAds.ID_AD).isEmpty()){
                     sf.favorie(u.getId());
-//                }
-//                else Dialog.show("Error", "Favoris existe in your favorites", "ok", null);
-                
-            
+                    Dialog.show("SuccÃ©s", "Favoris has been deleted", "ok", null);   
+                }
+                else {
 
+                    Dialog.show("Error", "Favoris existe in your favorites", "ok", null);  
+                }
+                 
             }
         });
 

@@ -37,7 +37,7 @@ public class ServiceAdFav {
         con.addResponseListener((e) -> {
             String str = new String(con.getResponseData());//Récupération de la réponse du serveur
             System.out.println(str);//Affichage de la réponse serveur sur la console
-            Dialog.show("success", "Favoris hasbeen add in your favorites", "ok", null);
+            //Dialog.show("success", "Favoris hasbeen add in your favorites", "ok", null);
 
         });
         NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
@@ -122,30 +122,29 @@ public class ServiceAdFav {
     
     public void delete(int id) {
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixit/web/app_dev.php/client/deleteFavorie/" +Integer.toString(id));
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/deleteFavorie/" +id);
             con.addResponseListener((ee) -> {
             String str = new String(con.getResponseData());
             System.out.println(str);
-            Dialog.show("SuccÃ©s", "Favoris has been deleted", "ok", null);
 
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
     
-    String str="";
-    public String check(int id){
+    ArrayList<AdFav> listcheck = new ArrayList<>();
+    public ArrayList<AdFav> check(int id){
         
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixit/web/app_dev.php/client/check/" +Integer.toString(id));
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/check/" +id);
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-                 str = new String(con.getResponseData());
-                 System.out.println(str);
+                ServiceAdFav ser = new ServiceAdFav();
+                listcheck = ser.parseListTaskJson(new String(con.getResponseData()));
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
-        return str;
+        return listcheck;
     }
     
 }
