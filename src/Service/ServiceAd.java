@@ -6,6 +6,7 @@
 package Service;
 
 import Entity.Ad;
+import Entity.User;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
@@ -13,6 +14,7 @@ import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -113,5 +115,37 @@ public class ServiceAd {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listTasks;
         
+    }
+ 
+  ArrayList<Ad> listTaskss = new ArrayList<>();
+ 
+ public ArrayList<Ad> getList3(int id){       
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/showMyAdsMobile/"+id);  
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                ServiceAd ser = new ServiceAd();
+                try {
+                    listTaskss = ser.parseListTaskJson(new String(con.getResponseData()));
+                } catch (ParseException ex) {
+                }
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return listTaskss;
+        
+    }
+ 
+     public void delete(int id) {
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/deleteAdsProv/" +id);
+            con.addResponseListener((ee) -> {
+            String str = new String(con.getResponseData());
+            System.out.println(str);
+            Dialog.show("success", "Favoris has been deleted from your Ads", "ok", null);
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
     }
 }
