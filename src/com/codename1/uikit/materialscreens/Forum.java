@@ -99,7 +99,7 @@ public class Forum extends SideMenuBaseForm {
                 BorderLayout.centerAbsolute(
                         BoxLayout.encloseY(
                                 new Label(u.getFirst_name()+" "+u.getLast_name(), "Title"),
-                                new Label("UI/UX Designer", "SubTitle")
+                                new Label("", "SubTitle")
                         )
                 ).add(BorderLayout.WEST, profilePicLabel)
         );
@@ -245,7 +245,10 @@ mb.addActionListener((ActionListener) new ActionListener() {
         
         
         Form hi = new Form("Capture", BoxLayout.y());
+
 hi.setToolbar(new Toolbar());
+                             hi.getToolbar().addCommandToLeftBar("Back", null, (l)->{showBack();});
+
 Style x = UIManager.getInstance().getComponentStyle("Title");
 FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_MIC, x);
 
