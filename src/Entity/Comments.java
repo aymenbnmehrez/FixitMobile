@@ -13,6 +13,7 @@ public class Comments {
      private String comment;
        private int id;
               private int post_id;
+     private String name;
 
     public int getPost_id() {
         return post_id;
@@ -27,6 +28,15 @@ public class Comments {
     public String getComment() {
         return comment;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
 
     public void setComment(String comment) {
         this.comment = comment;

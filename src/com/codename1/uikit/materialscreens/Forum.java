@@ -30,6 +30,11 @@ import com.codename1.components.FloatingActionButton;
 import com.codename1.components.ImageViewer;
 import com.codename1.components.MultiButton;
 import com.codename1.io.FileSystemStorage;
+import com.codename1.io.Log;
+import com.codename1.io.Util;
+import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.media.Media;
+import com.codename1.media.MediaManager;
 import com.codename1.ui.Button;
 import static com.codename1.ui.Component.BOTTOM;
 import static com.codename1.ui.Component.CENTER;
@@ -53,9 +58,11 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.list.MultiList;
 import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -73,11 +80,15 @@ public class Forum extends SideMenuBaseForm {
         super(BoxLayout.y());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
-        Image profilePic = res.getImage("user-picture.jpg");
+        
+        
+         Image profilePic = res.getImage("photo.jpg");
         Image mask = res.getImage("round-mask.png");
         profilePic = profilePic.fill(mask.getWidth(), mask.getHeight());
-        Label profilePicLabel = new Label(profilePic, "ProfilePicTitle");
+        Label profilePicLabel = new Label(profilePic, "ProfilePic");
         profilePicLabel.setMask(mask.createMask());
+        
+        
         Button menuButton = new Button("");
         menuButton.setUIID("Title");
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
@@ -87,40 +98,69 @@ public class Forum extends SideMenuBaseForm {
                 FlowLayout.encloseIn(menuButton),
                 BorderLayout.centerAbsolute(
                         BoxLayout.encloseY(
-                                new Label("Jennifer Wilson", "Title"),
+                                new Label(u.getFirst_name()+" "+u.getLast_name(), "Title"),
                                 new Label("UI/UX Designer", "SubTitle")
                         )
                 ).add(BorderLayout.WEST, profilePicLabel)
         );
 
+        
+        
+        
+        
+       
+        
+        
+        
+        
+        
+        
+        
         FloatingActionButton fab = FloatingActionButton.createFAB(FontImage.MATERIAL_ADD);
         fab.getAllStyles().setMarginUnit(Style.UNIT_TYPE_PIXELS);
 
+        
+       
         tb.setTitleComponent(fab.bindFabToContainer(titleCmp, RIGHT, BOTTOM));
         add(new Label("Posts ", "TodayTitle"));
         Container c = new Container(BoxLayout.y());
         int i;
         for (Post r: TS.getList2()) {//Ticket r : TS.getList2()
-           MultiButton mb = new MultiButton(r.getTitle());//r.getStatus()
-            mb.setTextLine3(r.getContent());//r.getDateTicket()
+            
+           MultiButton mb = new MultiButton(r.getNom());//r.getStatus()
+                                   mb.setTextLine3(r.getTitle());//r.getDateTicket()
+
+            mb.setTextLine4(r.getContent());//r.getDateTicket()
+                     //   mb.setTextLine3(r.getNom());//r.getDateTicket()
+
             TS.getList2();
             c.add(mb);
 mb.addActionListener((ActionListener) new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
+                    refreshTheme();
                      Form Detail =new Form(BoxLayout.y());
                   
                      Detail.getToolbar().addCommandToLeftBar("Back", null, (l)->{showBack();});
+                     
                      Detail.getToolbar().addCommandToRightBar("Delete",null,(e)->{
-                         
+                       TS.deletepost(r.getPost_id());
+                         refreshTheme();
+                         Detail.show();
+                               
                        
-                         showBack();});
+                 });
                      
                      
                      
                      for (Comments a: TC.getList2(r.getPost_id())) {//Ticket r : TS.getList2()
            MultiButton cb = new MultiButton(a.getComment());//r.getStatus()
+           
             TC.getList2(r.getPost_id());
+            Button Delete=new Button("delete comment");
+
+            
+            
             Detail.add(cb);
                                         System.out.println(cb);
  
@@ -131,9 +171,12 @@ mb.addActionListener((ActionListener) new ActionListener() {
                      
 
                      Button addcom =new Button("add comment");
+
                      Detail.add(addcom);
                       addcom.addActionListener(e -> {
                      Form ajoutcomm =new Form(BoxLayout.y());
+                                          ajoutcomm.getToolbar().addCommandToLeftBar("Back", null, (l)->{showBack();});
+
                      TextField tcomment;
     Button btnajoutcom;
 
@@ -171,6 +214,8 @@ mb.addActionListener((ActionListener) new ActionListener() {
         
         fab.addActionListener(e -> {
                      Form ajout =new Form(BoxLayout.y());
+                                          ajout.getToolbar().addCommandToLeftBar("Back", null, (l)->{showBack();});
+
                      TextField ttitle;
     TextField tcontent;
     Button btnajout;
@@ -180,12 +225,96 @@ mb.addActionListener((ActionListener) new ActionListener() {
         btnajout = new Button("ajouter");
         ajout.add(ttitle);
         ajout.add(tcontent);
+        
+        
+        
+        
+        
+        
+        
+        
+         Button vocal=new Button("vocal");
+
+        vocal.addActionListener((s) -> {
+        
+        
+        
+        Form hi = new Form("Capture", BoxLayout.y());
+hi.setToolbar(new Toolbar());
+Style x = UIManager.getInstance().getComponentStyle("Title");
+FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_MIC, x);
+
+FileSystemStorage fs = FileSystemStorage.getInstance();
+String recordingsDir = fs.getAppHomePath() + "recordings/";
+fs.mkdir(recordingsDir);
+try {
+    for(String file : fs.listFiles(recordingsDir)) {
+        MultiButton mb = new MultiButton(file.substring(file.lastIndexOf("/") + 1));
+        mb.addActionListener((f) -> {
+            try {
+                Media m = MediaManager.createMedia(recordingsDir + file, false);
+                m.play();
+            } catch(IOException err) {
+                Log.e(err);
+            }
+        });
+        hi.add(mb);
+    }
+
+    hi.getToolbar().addCommandToRightBar("", icon, (ev) -> {
+        try {
+            String file = Capture.captureAudio();
+            if(file != null) {
+                SimpleDateFormat sd = new SimpleDateFormat("yyyy-MMM-dd-kk-mm");
+                String fileName =sd.format(new Date());
+                String filePath = recordingsDir + fileName;
+                Util.copy(fs.openInputStream(file), fs.openOutputStream(filePath));
+                MultiButton mb = new MultiButton(fileName);
+                mb.addActionListener((j) -> {
+                    try {
+                        Media m = MediaManager.createMedia(filePath, false);
+                        m.play();
+                    } catch(IOException err) {
+                        Log.e(err);
+                    }
+                });
+                hi.add(mb);
+                hi.revalidate();
+            }
+        } catch(IOException err) {
+            Log.e(err);
+        }
+    });
+} catch(IOException err) {
+    Log.e(err);
+}
+hi.show();
+        
+        
+        
+        });
+                        ajout.add(vocal);
+
+        
+        
+        
+        
+        
+        
         ajout.add(btnajout);
+        
+        
+        
+        
+        
+        
+        
+        
         ajout.show();
         btnajout.addActionListener((s) -> {
             servicePost ser = new servicePost();
-            Post p = new Post(ttitle.getText(), tcontent.getText());
-            ser.ajoutPost(p);
+            //Post p = new Post(ttitle.getText(), tcontent.getText());
+            ser.ajoutPost(u.getId(),ttitle.getText(),tcontent.getText());
             showBack();
             
 
@@ -197,8 +326,9 @@ mb.addActionListener((ActionListener) new ActionListener() {
 
         add(c);
 
+
+
         setupSideMenu(res,u);
-        Button API=new Button("API");
     }
 ////
 ////

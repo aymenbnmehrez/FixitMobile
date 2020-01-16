@@ -14,6 +14,7 @@ import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +25,24 @@ import java.util.Map;
 public class servicePost {
     
 
-    public void ajoutPost(Post p) {
+    public void ajoutPost(int id,String tit,String cnt) {
         ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
-        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutmob?title="+p.getTitle()+"&content="+p.getContent()+"&id="+p.getId();// création de l'URL
+        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutmob/"+id+"/"+tit+"/"+cnt;// création de l'URL
+        con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());//Récupération de la réponse du serveur
+            System.out.println(str);//Affichage de la réponse serveur sur la console
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+    }
+    
+    
+    
+    public void deletepost(int id) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
+        String Url = "http://localhost/fixit/web/app_dev.php/client/deletePostmob/"+id;// création de l'URL
         con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
         con.addResponseListener((e) -> {
@@ -76,7 +92,9 @@ public class servicePost {
                 e.setTitle(obj.get("title").toString());
                 e.setContent(obj.get("content").toString());
                // e.setPost_date(obj.get("postDate").toString());
-
+LinkedHashMap<String,Object> obj1 =  (LinkedHashMap<String,Object>) obj.get("user") ;
+           int pos = 1;
+          e.setNom(obj1.get("first_Name").toString());
                 System.out.println(e);
                 listTasks.add(e);
 

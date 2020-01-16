@@ -12,7 +12,7 @@ package Entity;
 public class Post {
      private int post_id;
           private int id;
-
+private String nom;
    private String title;
    private String content;
    private String post_date;
@@ -22,6 +22,14 @@ public class Post {
 
     public int getId() {
         return id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public void setId(int id) {

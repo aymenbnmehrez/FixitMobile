@@ -16,6 +16,7 @@ import com.codename1.ui.Button;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,20 @@ public class ServiceComment {
         NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
     }
     
+    
+    public void deleteComment(int id) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
+        String Url = "http://localhost/fixit/web/app_dev.php/client/deleteCommentmob/"+id;// création de l'URL
+        con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());//Récupération de la réponse du serveur
+            System.out.println(str);//Affichage de la réponse serveur sur la console
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+    }
+
     
     public ArrayList<Comments> parseListTaskJson(String json) {
     Button btn = null;
@@ -76,10 +91,12 @@ public class ServiceComment {
                 //Création des tâches et récupération de leurs données
                 Comments c = new Comments();
 
-               // float id = Float.parseFloat(obj.get("id").toString());
+               float id = Float.parseFloat(obj.get("id").toString());
 
-                //c.setId((int) id);
+                c.setId((int) id);
                 c.setComment(obj.get("comment").toString());
+                
+               
                 System.out.println(c);
                 listTasks.add(c);
 
