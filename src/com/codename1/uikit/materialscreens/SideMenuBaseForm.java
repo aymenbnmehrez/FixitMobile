@@ -82,6 +82,7 @@ public abstract class SideMenuBaseForm extends Form {
         }
         );
         getToolbar().addMaterialCommandToSideMenu("Send Claim", FontImage.MATERIAL_WARNING, e -> new CategorytForm(res, u).show());
+      //  getToolbar().addMaterialCommandToSideMenu("Send Claim", FontImage.MATERIAL_WARNING, e -> new TicketForm(res, u).show());
         getToolbar().addMaterialCommandToSideMenu("Forum", FontImage.MATERIAL_WARNING, e -> new Forum(res, u).show());
         getToolbar().addMaterialCommandToSideMenu("  Account Settings", FontImage.MATERIAL_SETTINGS, e -> new ClientProfile(res, u).show());
         getToolbar().addMaterialCommandToSideMenu("  Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> new LoginForm(res).show());

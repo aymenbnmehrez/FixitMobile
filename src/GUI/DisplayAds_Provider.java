@@ -12,6 +12,7 @@ import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
@@ -33,7 +34,12 @@ import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.uikit.materialscreens.SideMenuBaseForm;
 import com.codename1.uikit.materialscreens.SideMenuBaseForm_1;
+import facebook4j.Facebook;
+import facebook4j.FacebookException;
+import facebook4j.FacebookFactory;
+import facebook4j.auth.AccessToken;
 import java.util.Date;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -57,6 +63,7 @@ public class DisplayAds_Provider extends SideMenuBaseForm_1 {
     public static String IMAGE;
     public static String LOCATION;
     public static int ID_AD;
+    private Facebook facebook;
     
     
     
@@ -77,15 +84,11 @@ public class DisplayAds_Provider extends SideMenuBaseForm_1 {
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
         menuButton.addActionListener(e -> getToolbar().openSideMenu());
 
-        Button favButton = new Button("");
-        favButton.setUIID("Title");
-        FontImage.setMaterialIcon(favButton, FontImage.MATERIAL_FAVORITE);
         Label space = new Label("", "TitlePictureSpace");
         space.setShowEvenIfBlank(true);
         Container titleComponent
                 = north(
-                        BorderLayout.west(menuButton).add(BorderLayout.EAST, favButton)
-                ).
+                        BorderLayout.west(menuButton)).
                         add(BorderLayout.CENTER, space).
                         add(BorderLayout.SOUTH,
                                 FlowLayout.encloseIn(
@@ -95,14 +98,6 @@ public class DisplayAds_Provider extends SideMenuBaseForm_1 {
         titleComponent.setUIID("BottomPaddingContainer");
         tb.setTitleComponent(titleComponent);
         
-       // int idCurrent=ServiceSession.getInstance().getLoggedInUser().getId();
-//        favButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent evt) {
-//           // System.out.println("Current User:"+idCurrent);
-//            new DisplayFavAds(res,u).show();
-//            }
-//        });
 
         setupSideMenu(res,u);
     
@@ -128,18 +123,43 @@ public class DisplayAds_Provider extends SideMenuBaseForm_1 {
             imv = new ImageViewer(scImage);
 
             Button btndelete = new Button("delete");
+            Button btnshare = new Button("");
+            FontImage.setMaterialIcon(btnshare, FontImage.MATERIAL_SHARE);
+            
+            btnshare.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                 facebook = new FacebookFactory().getInstance();  
+                 facebook.setOAuthAppId("", "");
+                 String accessTokenString = "EAANyeAN4F9QBAP4hfwf6PHWgCdoeKHKqEpzFegib2d2eZB37JKKgZAtLjcrtSCLrleRbGdIjFDMmpZCdjEu7mS2hnDpOLU7g2xk596oi7nT2oClCpSo2ZC7FaDxomV6qmSle59E4ZAl7pZAQ4bfnGNtZA8pLfAsCLZAdi1ZA0YeXuNjhTlvZCMZBruqnN3RyWc0cCMZD";
+                 AccessToken accessToken = new AccessToken(accessTokenString);
+                 facebook.setOAuthAccessToken(accessToken);
+       
+        try{
+            
+        facebook.postStatusMessage(ad.getName()+ " is available in: "+ ad.getAvailability() +"\n Description: " + ad.getDescription());
+        Dialog.show("success", "Favoris has been shared to facebook", "ok", null);
+        
+        }
+        catch(FacebookException fex){System.out.println(fex);}
+
+    }     
+            });
 
             btndelete.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                      ServiceAd s=new ServiceAd();
                      s.delete(ad.getAd_id());
+                     DisplayAds_Provider d=new DisplayAds_Provider(res, u);
+                     d.show();
                 }
             });
 
             c1.add(imv);
             c1.add(titreE);
             c1.add(btndelete);
+            c1.add(btnshare);
             c2.add(c1);
             add(c2);
         }

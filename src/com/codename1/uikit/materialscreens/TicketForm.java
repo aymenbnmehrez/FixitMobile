@@ -112,6 +112,7 @@ public class TicketForm extends SideMenuBaseForm {
                     });
                     FontImage iconn = FontImage.createMaterial(FontImage.MATERIAL_DELETE, s);
                     Detail.getToolbar().addCommandToRightBar("", iconn, (e) -> {
+//<<<<<<< HEAD (803c645) - Ticket2
                         //   TicketForm aaa = new TicketForm(res);
 //                        aaa.refreshTheme();
 //                        SC.delete(r.getId());
@@ -123,6 +124,13 @@ public class TicketForm extends SideMenuBaseForm {
                     TS.delete(r.getIdTicket());
                     //  aaa.showBack();});
                     //Detail.show();
+//=======
+//                        TicketForm aaa=new TicketForm(res,u);
+//                        aaa.refreshTheme();
+//                        TS.delete(r.getIdTicket());
+//                         aaa.showBack();});
+//                     Detail.show();
+//>>>>>>> origin/master (078c658) - partage facebo
                 }
             });
         }
@@ -276,3 +284,11 @@ public class TicketForm extends SideMenuBaseForm {
     }
  
 }
+//<<<<<<< HEAD (803c645) - Ticket2
+        //add(c);
+      //  setupSideMenu(res, u);
+//=======
+//        add(c);
+//
+//        setupSideMenu(res,u);
+//>>>>>>> origin/master (078c658) - partage facebo
