@@ -215,4 +215,20 @@ public class TicketService {
         return listTaskss;
     }
 
+    public void ajoutTicket(String c , int id,int idUser) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion 
+       
+        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutik/"+c+"/"+id+"/"+idUser;// création de l'URL
+        
+        con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());//Récupération de la réponse du serveur
+            System.out.println(str);//Affichage de la réponse serveur sur la console
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+    }
+    
+    
 }

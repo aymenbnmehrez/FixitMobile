@@ -10,6 +10,7 @@ package Entity;
  * @author user
  */
 public class Categoryt {
+    
     private int id;
     private String category_name;
 
@@ -35,6 +36,10 @@ public class Categoryt {
     }
 
     public Categoryt() {
+    }
+
+    public Categoryt(int id) {
+        this.id = id;
     }
     
 }

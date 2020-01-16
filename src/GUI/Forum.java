@@ -7,7 +7,10 @@ package GUI;
 
 import Service.servicePost;
 import com.codename1.components.SpanLabel;
+import com.codename1.ui.Button;
+import com.codename1.ui.Container;
 import com.codename1.ui.Form;
+import com.codename1.ui.layouts.BoxLayout;
 
 /**
  *
@@ -21,11 +24,26 @@ public class Forum {
   
     public Forum() {
         
-        f = new Form();
+       
+        f = new Form(BoxLayout.y());
         lb = new SpanLabel("");
-        f.add(lb);
-        servicePost p=new servicePost();
-        lb.setText(p.getList2().toString());
+        servicePost p = new servicePost();
+        for (int i = 0; i < p.getList2().size(); i++) {
+           // str+=p.getList2().get(i).getContent();
+         
+            Container cnt=new Container();
+            Container cnt1=new Container();
+
+            Button lb = new Button(p.getList2().get(i).getTitle());
+            SpanLabel lbn = new SpanLabel(p.getList2().get(i).getContent());
+        cnt.add(lb);
+                cnt1.add(lbn);
+                f.add(cnt);
+                f.add(cnt1);        
+                
+       // lb.setText(str);
+               // f.add(lb);}
+        }
 }
  public Form getF() {
         return f;

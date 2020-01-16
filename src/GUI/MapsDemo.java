@@ -22,6 +22,7 @@
  */
 package GUI;
 
+import Entity.User;
 import com.codename1.location.Location;
 import com.codename1.location.LocationManager;
 import com.codename1.maps.Coord;
@@ -66,125 +67,97 @@ import java.util.StringTokenizer;
  * @author Chen
  */
 public class MapsDemo extends Form {
-    public static String lat;
+ public static String lat;
     public static String lon;
-
-    private Form main;
     private Coord lastLocation;
-  
-   Resources theme = UIManager.initFirstTheme("/theme_1");
-   
-   
-   
+
+    String u;
+
+    public void setUser(String u) {
+
+        this.u = u;
+
+    }
+    
     public void init(Object context) {
-        Resources theme = UIManager.initFirstTheme("/theme_1");
-        //Enable Toolbar to all Forms by default
-        Toolbar.setGlobalToolbar(true);
+  //     Resources theme = UIManager.initFirstTheme("/theme_1");
+//        //Enable Toolbar to all Forms by default
+        Toolbar.setGlobalToolbar(false);
         // Pro only feature, uncomment if you have a pro subscription
         //Log.bindCrashProtection(true);
 
-
-
     }
 
-    public void start() {
-          
-   
-         showMeOnMap();
-       
-//     a=Statics.createBackBtn(theme);
+    public void start(Resources res,User u) {
+
+        Form map = new Form();
+        Form formb = new Form();
         
 
-     
-
-      
-    }
-
-    private void showMeOnMap() {
-    
-        Form map = new Form(BoxLayout.y());
-         Form formb = new Form(BoxLayout.x());
-                 Toolbar tf2 = new Toolbar(true);
-                   
         map.setLayout(new BorderLayout());
-        map.setScrollable(false);
-       
-         Toolbar tmp=new Toolbar(true);
-       map.setToolbar(tmp);
- map.getToolbar().addCommandToLeftBar(new MapsDemo.BackCommand());
         final MapComponent mc = new MapComponent();
 
         putMeOnMap(mc);
-        mc.zoomToLayers();   
-        mc.zoomTo(lastLocation, 8);
-       
+        mc.zoomToLayers();
+        mc.zoomTo(lastLocation, 7);
 
         map.addComponent(BorderLayout.CENTER, mc);
-       
-        map.setBackCommand(new MapsDemo.BackCommand());
-      
-      Button backb = new Button("back"); 
+
+        Button backb = new Button("back");
         Container C3 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Container C4 = new Container(new BoxLayout(BoxLayout.X_AXIS));
-       
-          backb.addActionListener((e) -> {
-                        DisplayAds aa = new DisplayAds(theme);
-                        aa.show();
-                    });
-        
-        C4.setHeight(5);
-       
-       map.setHeight(MOVE_CURSOR);
-       C4.add(map);
+
+        backb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                DisplayMore aa = new DisplayMore(res, u);
+                aa.showBack();
+            }
+        });
+        map.setHeight(MOVE_CURSOR);
+        C4.add(map);
         C3.add(backb);
-         formb.add(C3);
+        formb.add(C3);
         formb.add(C4);
-       
-        
-             
+
         formb.show();
-
-
+        
     }
 
 
-
     private void putMeOnMap(MapComponent map) {
-        
+
         try {
-             
-          
-      
-       StringTokenizer st = new StringTokenizer(DisplayMore.location,",");      
-       st.toString();    
-           int z =0;
-     while (st.hasMoreTokens()) {
-         z++;
-         if (z==1){
-        lat = st.nextToken();}
-         else{
-         lon = st.nextToken();}
-     }  
-         
+
+            StringTokenizer st = new StringTokenizer(DisplayMore.location, ",");
+            st.toString();
+            int z = 0;
+            while (st.hasMoreTokens()) {
+                z++;
+                if (z == 1) {
+                    lat = st.nextToken();
+                } else {
+                    lon = st.nextToken();
+                }
+            }
+
             System.out.println("lat" + lat);
             System.out.println("lon" + lon);
-            
+
             Location loc = LocationManager.getLocationManager().getCurrentLocation();
-            lastLocation = new Coord(36.7997069 ,10.167524500000013);
+            lastLocation = new Coord(36.7997069, 10.167524500000013);
             Image i = Image.createImage("/blue_pin.png");
             PointsLayer pl = new PointsLayer();
             pl.setPointIcon(i);
-          
-            PointLayer p = new PointLayer(lastLocation, "TM", i);
-            
-          Float latf =  Float.valueOf(lat);
-          Float lonf =  Float.valueOf(lon);
-            
-            
-       p.setLatitude(latf);
-       p.setLongitude(lonf);
 
-       
+            PointLayer p = new PointLayer(lastLocation, "TM", i);
+
+            Float latf = Float.valueOf(lat);
+            Float lonf = Float.valueOf(lon);
+
+            p.setLatitude(latf);
+            p.setLongitude(lonf);
+
             p.setDisplayName(true);
             pl.addPoint(p);
             pl.addActionListener(new ActionListener() {
@@ -212,17 +185,7 @@ public class MapsDemo extends Form {
 
     }
 
-    class BackCommand extends Command {
 
-        public BackCommand() {
-            super("");
-            FontImage img = FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, UIManager.getInstance().getComponentStyle("TitleCommand"));
-            setIcon(img);
-        }
-
-      
-    }
-
-
-
+    
+    
 }

@@ -7,6 +7,7 @@ package com.codename1.uikit.materialscreens;
 
 import Entity.Categoryt;
 import Entity.Ticket;
+import Entity.User;
 import GUI.DisplayTicket;
 import Service.ServiceCategoryt;
 import Service.TicketService;
@@ -59,7 +60,7 @@ public class CategorytForm extends SideMenuBaseForm {
     Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
     ServiceCategoryt SC = new ServiceCategoryt();
 
-    public CategorytForm(Resources res) {
+    public CategorytForm(Resources res,User u) {
         super(BoxLayout.y());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -98,7 +99,7 @@ public class CategorytForm extends SideMenuBaseForm {
             mb.addActionListener((ActionListener) new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                   TicketForm t = new TicketForm(res,r);
+                   TicketForm t = new TicketForm(res,u,r);
                    t.show();
                 }
             });
@@ -212,7 +213,7 @@ public class CategorytForm extends SideMenuBaseForm {
 
         add(c);
 
-        setupSideMenu(res);
+        setupSideMenu(res,u);
     }
 
     @Override

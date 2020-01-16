@@ -26,7 +26,7 @@ public class servicePost {
 
     public void ajoutPost(Post p) {
         ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
-        String Url = "http://localhost/fixitweb1/web/app_dev.php/client/ajoutmob" + "/" + p.getTitle()+ "/" + p.getContent();// création de l'URL
+        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutmob?title="+p.getTitle()+"&content="+p.getContent()+"&id="+p.getId();// création de l'URL
         con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
         con.addResponseListener((e) -> {
@@ -75,7 +75,7 @@ public class servicePost {
                 e.setPost_id((int) postId);
                 e.setTitle(obj.get("title").toString());
                 e.setContent(obj.get("content").toString());
-                e.setPost_date(obj.get("postDate").toString());
+               // e.setPost_date(obj.get("postDate").toString());
 
                 System.out.println(e);
                 listTasks.add(e);
@@ -100,7 +100,7 @@ public class servicePost {
     
     public ArrayList<Post> getList2(){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixitweb1/web/app_dev.php/client/affichmob");  
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/affichmob");  
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {

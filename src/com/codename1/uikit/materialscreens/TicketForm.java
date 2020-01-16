@@ -7,6 +7,7 @@ package com.codename1.uikit.materialscreens;
 
 import Entity.Categoryt;
 import Entity.Ticket;
+import Entity.User;
 import GUI.DisplayTicket;
 import Service.ServiceCategoryt;
 import Service.TicketService;
@@ -58,7 +59,9 @@ public class TicketForm extends SideMenuBaseForm {
     Style s = UIManager.getInstance().getComponentStyle("TitleCommand");
     //TicketService SC = new TicketService();
 
-    public TicketForm(Resources res,Categoryt c) {
+    ServiceCategoryt SC = new ServiceCategoryt();
+
+    public TicketForm(Resources res, User u, Categoryt c) {
         super(BoxLayout.y());
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -94,7 +97,7 @@ public class TicketForm extends SideMenuBaseForm {
             MultiButton mb = new MultiButton(r.getDescription());//r.getStatus()
             // mb.setTextLine3(r.getDescription());//r.getDateTicket()
             //SC.getList2();
-        add(mb);
+            add(mb);
             mb.addActionListener((ActionListener) new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -102,23 +105,28 @@ public class TicketForm extends SideMenuBaseForm {
 
                     Label desc = new Label("Motive : " + r.getStatus());
                     Detail.add(desc);
-                    
+
                     FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, s);
                     Detail.getToolbar().addCommandToLeftBar("", icon, (l) -> {
                         showBack();
                     });
                     FontImage iconn = FontImage.createMaterial(FontImage.MATERIAL_DELETE, s);
                     Detail.getToolbar().addCommandToRightBar("", iconn, (e) -> {
-                     //   TicketForm aaa = new TicketForm(res);
+                        //   TicketForm aaa = new TicketForm(res);
 //                        aaa.refreshTheme();
 //                        SC.delete(r.getId());
 //                        aaa.showBack();
                     });
                     Detail.show();
+                    TicketForm aaa = new TicketForm(res, u, c);
+                    aaa.refreshTheme();
+                    TS.delete(r.getIdTicket());
+                    //  aaa.showBack();});
+                    //Detail.show();
                 }
             });
         }
-        
+
         fab.addActionListener(e -> {
             add = new Form(new BorderLayout());
             FontImage icon = FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, s);
@@ -133,19 +141,24 @@ public class TicketForm extends SideMenuBaseForm {
             Container xc = new Container(BoxLayout.x());
             fab.getAllStyles().setMarginUnit(Style.UNIT_TYPE_PIXELS);
             ComboBox categ = new ComboBox();
-//            for (Categoryt r : SC.getList2()) {//Ticket r : TS.getList2()
-//                categ.addItem(r.getCategory_name());
-//            }
+            for (Categoryt t : SC.getList2()) {//Ticket r : TS.getList2()
+                categ.addItem(t.getCategory_name());
+            }
             TextField a = new TextField("", "Provider");
             TextArea b = new TextArea("", 10, 10);
             Button send = new Button("Send");
             send.addActionListener(ee -> {
-                Ticket r = new Ticket();
-                r.setDescription(b.getText());
-                r.setStatus("Not Treated");
-                r.setImage("");
+                System.out.println(categ.getSelectedItem());
+                Categoryt cs = new Categoryt();
+                ServiceCategoryt sc = new ServiceCategoryt();
+                ArrayList<Categoryt> css = new ArrayList<>();
+
+                css = sc.displayCateg(categ.getSelectedItem().toString());
+                cs=css.get(0);
+                TicketService r = new TicketService();
+                r.ajoutTicket(b.getText(), cs.getId(), u.getId());
                 // r.setProvider(a);
-                TS.ajoutticket(r);
+                //  TS.ajoutticket(r);
             });
 
             cameraButton.addActionListener(new ActionListener() {
@@ -255,8 +268,7 @@ public class TicketForm extends SideMenuBaseForm {
         );
 
         //add(c);
-
-        setupSideMenu(res);
+        setupSideMenu(res, u);
     }
 
     @Override

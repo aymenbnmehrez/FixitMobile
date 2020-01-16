@@ -6,10 +6,11 @@
 package GUI;
 
 import Entity.Ad;
+import Entity.User;
 import Service.ServiceAd;
-import Service.ServiceSession;
 import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
+import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
@@ -17,6 +18,7 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
@@ -26,8 +28,9 @@ import com.codename1.ui.layouts.BorderLayout;
 import static com.codename1.ui.layouts.BorderLayout.north;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
-import com.codename1.uikit.materialscreens.ProfileForm;
 import com.codename1.uikit.materialscreens.SideMenuBaseForm;
 import java.util.Date;
 
@@ -56,7 +59,7 @@ public class DisplayAds extends SideMenuBaseForm {
     
     
     
-    public DisplayAds(Resources res) {
+    public DisplayAds(Resources res,User u) {
 
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -96,16 +99,12 @@ public class DisplayAds extends SideMenuBaseForm {
             @Override
             public void actionPerformed(ActionEvent evt) {
            // System.out.println("Current User:"+idCurrent);
-            new DisplayFavAds(res).show();
+            new DisplayFavAds(res,u).show();
             }
         });
-        
-        
-        
 
-
-        setupSideMenu(res);
-
+        setupSideMenu(res,u);
+    
                     /* Affichage liste des annonces*/    
         
         ServiceAd serviceAd = new ServiceAd();
@@ -139,7 +138,7 @@ public class DisplayAds extends SideMenuBaseForm {
                     PUBLISHED_AT = ad.getPublished_at();
                     LOCATION = ad.getLocation();
                     ID_AD=ad.getAd_id();
-                    DisplayMore ar = new DisplayMore(res);
+                    DisplayMore ar = new DisplayMore(res,u);
 
                     ar.show();
                 }
@@ -157,6 +156,7 @@ public class DisplayAds extends SideMenuBaseForm {
 
     @Override
     protected void showOtherForm(Resources res) {
-        new ProfileForm(res).show();
     }
+
+ 
 }
