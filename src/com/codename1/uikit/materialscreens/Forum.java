@@ -189,7 +189,12 @@ mb.addActionListener((ActionListener) new ActionListener() {
             System.out.println(r.getPost_id());
             ServiceComment serr = new ServiceComment();
            // Comments c = new Comments( tcomment.getText(),);
+           
+           if (tcomment.getText().length()>0)
             serr.ajoutComment(tcomment.getText(),r.getPost_id());
+           else 
+                       Dialog.show("warning!", "you have an empty field", "OK", "Cancel");
+
             showBack();
             
 
@@ -314,7 +319,13 @@ hi.show();
         btnajout.addActionListener((s) -> {
             servicePost ser = new servicePost();
             //Post p = new Post(ttitle.getText(), tcontent.getText());
+            
+                       if ((ttitle.getText().length()>0)&&(tcontent.getText().length()>0))
+
             ser.ajoutPost(u.getId(),ttitle.getText(),tcontent.getText());
+                       else 
+                                            Dialog.show("warning!", "you have an empty field", "OK", "Cancel");
+      
             showBack();
             
 
