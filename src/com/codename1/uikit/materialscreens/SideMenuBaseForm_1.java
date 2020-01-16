@@ -21,6 +21,7 @@ package com.codename1.uikit.materialscreens;
 
 import Entity.User;
 import GUI.DisplayAds;
+import GUI.DisplayAds_Provider;
 import GUI.DisplayCategory;
 import Service.ServiceCategory;
 import com.codename1.components.ToastBar;
@@ -69,6 +70,7 @@ public abstract class SideMenuBaseForm_1 extends Form {
         sidemenuTop.setUIID("SidemenuTop");
         
         getToolbar().addComponentToSideMenu(sidemenuTop);
+        getToolbar().addMaterialCommandToSideMenu("  My Ads ", FontImage.MATERIAL_DASHBOARD, e -> new DisplayAds_Provider(res, u).show());
         getToolbar().addMaterialCommandToSideMenu("  Account Settings", FontImage.MATERIAL_SETTINGS,  e -> new ProviderProfile(res,u).show());
         getToolbar().addMaterialCommandToSideMenu("  Logout", FontImage.MATERIAL_EXIT_TO_APP,  e -> new LoginForm(res).show());
   

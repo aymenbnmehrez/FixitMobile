@@ -26,9 +26,31 @@ import java.util.Map;
 public class ServiceCategoryt {
     
 
-    
+      private ArrayList<Categoryt> getDetails(String json) {
+        ArrayList<Categoryt> details = new ArrayList<>();
+
+        try {
+            JSONParser j = new JSONParser();
+
+            Map<String, Object> obj = j.parseJSON(new CharArrayReader(json.toCharArray()));
+
+            Categoryt form = new Categoryt();
+            float id = Float.parseFloat(obj.get("id").toString());
+
+            form.setId((int) id);
+            
+            System.out.println(form);
+            details.add(form);
+
+        } catch (IOException ex) {
+        }
+
+        return details;
+
+    }
 
     public ArrayList<Categoryt> parseListTaskJson(String json) {
+        
 
         ArrayList<Categoryt> listTasks = new ArrayList<>();
 
@@ -61,9 +83,9 @@ public class ServiceCategoryt {
                 //Création des tâches et récupération de leurs données
                 Categoryt e = new Categoryt();
 
-                //float postId = Float.parseFloat(obj.get("postId").toString());
+                float id = Float.parseFloat(obj.get("id").toString());
 
-               // e.setPost_id((int) postId);
+                e.setId((int) id);
                 e.setCategory_name(obj.get("categoryName").toString());
                
 
@@ -111,15 +133,32 @@ public class ServiceCategoryt {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
-   public void deletecateg(int id) {
+  
+     public void delete(int id) {
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixit/web/app_dev.php/client/categ/" + id);
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/categ/delete/" + Integer.toString(id));
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
+                    }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
+     
+     
+      ArrayList<Categoryt> listTaskss = new ArrayList<>();
 
+    public ArrayList<Categoryt> displayCateg(String id) {
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/afficheCate/"+id);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                ServiceCategoryt ser = new ServiceCategoryt();
+                listTaskss = ser.getDetails(new String(con.getResponseData()));
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
-    } 
+        return listTaskss;
+    }
 }

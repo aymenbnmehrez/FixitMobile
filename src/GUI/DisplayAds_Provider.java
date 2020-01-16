@@ -6,31 +6,20 @@
 package GUI;
 
 import Entity.Ad;
-import Entity.AdFav;
 import Entity.User;
-import static GUI.DisplayAds.AVAILABILITY;
-import static GUI.DisplayAds.DESCRIPTION;
-import static GUI.DisplayAds.ID_AD;
-import static GUI.DisplayAds.IMAGE;
-import static GUI.DisplayAds.LOCATION;
-import static GUI.DisplayAds.PUBLISHED_AT;
-import static GUI.DisplayAds.TITRE;
 import Service.ServiceAd;
-import Service.ServiceAdFav;
-import Service.ServiceSession;
-import Service.ServiceUser;
-import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
-import com.codename1.charts.renderers.XYSeriesRenderer;
 import com.codename1.components.ImageViewer;
-import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
+import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
@@ -40,17 +29,23 @@ import com.codename1.ui.layouts.BorderLayout;
 import static com.codename1.ui.layouts.BorderLayout.north;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
-import com.codename1.uikit.materialscreens.ProfileForm;
 import com.codename1.uikit.materialscreens.SideMenuBaseForm;
-import java.util.ArrayList;
+import com.codename1.uikit.materialscreens.SideMenuBaseForm_1;
+import facebook4j.Facebook;
+import facebook4j.FacebookException;
+import facebook4j.FacebookFactory;
+import facebook4j.auth.AccessToken;
 import java.util.Date;
+import javafx.scene.control.Alert;
 
 /**
  *
  * @author majdi
  */
-public class DisplayFavAds extends SideMenuBaseForm {
+public class DisplayAds_Provider extends SideMenuBaseForm_1 {
 
     private TextField description = new TextField("", "Description");
     private static final int[] COLORS = {0xf8e478, 0x60e6ce, 0x878aee};
@@ -61,14 +56,18 @@ public class DisplayFavAds extends SideMenuBaseForm {
     Image img;
     ImageViewer imv;
 
-    public static String TITREE;
-    public static String AVAILABILITYY;
-    public static Date PUBLISHED_ATT;
-    public static String DESCRIPTIONN;
-    public static String IMAGEE;
-    public static String LOCATIONN;
-    public static int ID_ADD;
-    public DisplayFavAds(Resources res,User u) {
+    public static String TITRE;
+    public static String AVAILABILITY;
+    public static Date PUBLISHED_AT;
+    public static String DESCRIPTION;
+    public static String IMAGE;
+    public static String LOCATION;
+    public static int ID_AD;
+    private Facebook facebook;
+    
+    
+    
+    public DisplayAds_Provider(Resources res,User u) {
 
         Toolbar tb = getToolbar();
         tb.setTitleCentered(false);
@@ -84,42 +83,32 @@ public class DisplayFavAds extends SideMenuBaseForm {
         menuButton.setUIID("Title");
         FontImage.setMaterialIcon(menuButton, FontImage.MATERIAL_MENU);
         menuButton.addActionListener(e -> getToolbar().openSideMenu());
+
         Label space = new Label("", "TitlePictureSpace");
         space.setShowEvenIfBlank(true);
         Container titleComponent
                 = north(
-                        BorderLayout.west(menuButton)
-                ).
+                        BorderLayout.west(menuButton)).
                         add(BorderLayout.CENTER, space).
                         add(BorderLayout.SOUTH,
                                 FlowLayout.encloseIn(
-                                        new Label("            My Favorite Ads", "WelcomeBlue")
+                                        new Label("                   My Ads", "WelcomeBlue")
                                 ));
 
         titleComponent.setUIID("BottomPaddingContainer");
         tb.setTitleComponent(titleComponent);
+        
 
         setupSideMenu(res,u);
-
+    
+                    /* Affichage liste des annonces*/    
         
-                    /* Affichage liste des favoris*/
-       
-        ServiceAdFav sf = new ServiceAdFav();
-        ServiceAd sA = new ServiceAd();
-       // System.out.println(idCurrent);
-        ArrayList<AdFav> listAdFav = sf.getListFav(u.getId());
-        ArrayList<Ad> listAd = sA.getList2();
-       for (Ad ad : listAd) {
-        for (AdFav adf : listAdFav) {
-            System.out.println(ad.getAd_id());
-            System.out.println(adf.getAdFav_id());
-                
-            if(ad.getAd_id()==adf.getIdAd()){
+        ServiceAd serviceAd = new ServiceAd();
+        for (Ad ad : serviceAd.getList3(u.getId())) {
             Container c1 = new Container(new BoxLayout(BoxLayout.X_AXIS));
             Container c2 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
             Label titreE = new Label(" " + ad.getName());
-                System.out.println("zabour name"+ ad.getName());
             String url = "http://localhost/fixit/web/fixit/public/uploads/" + ad.getImage();
             try {
                 imc = EncodedImage.create("/load.png");
@@ -133,52 +122,55 @@ public class DisplayFavAds extends SideMenuBaseForm {
             Image scImage = img.scaled(-1, displayHeight / 10);
             imv = new ImageViewer(scImage);
 
-            Button btnMore = new Button("More");
-
-            btnMore.addActionListener(new ActionListener() {
+            Button btndelete = new Button("delete");
+            Button btnshare = new Button("");
+            FontImage.setMaterialIcon(btnshare, FontImage.MATERIAL_SHARE);
+            
+            btnshare.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    
-                    TITREE = ad.getName();
-                    IMAGEE = ad.getImage();
-                    DESCRIPTIONN = ad.getDescription();
-                    AVAILABILITYY = ad.getAvailability();
-                    PUBLISHED_ATT = ad.getPublished_at();
-                    LOCATIONN = ad.getLocation();
-                    ID_ADD=ad.getAd_id();
-                    DisplayMoreFav ar = new DisplayMoreFav(res,u);
+                 facebook = new FacebookFactory().getInstance();  
+                 facebook.setOAuthAppId("", "");
+                 String accessTokenString = "EAANyeAN4F9QBAP4hfwf6PHWgCdoeKHKqEpzFegib2d2eZB37JKKgZAtLjcrtSCLrleRbGdIjFDMmpZCdjEu7mS2hnDpOLU7g2xk596oi7nT2oClCpSo2ZC7FaDxomV6qmSle59E4ZAl7pZAQ4bfnGNtZA8pLfAsCLZAdi1ZA0YeXuNjhTlvZCMZBruqnN3RyWc0cCMZD";
+                 AccessToken accessToken = new AccessToken(accessTokenString);
+                 facebook.setOAuthAccessToken(accessToken);
+       
+        try{
+            
+        facebook.postStatusMessage(ad.getName()+ " is available in: "+ ad.getAvailability() +"\n Description: " + ad.getDescription());
+        Dialog.show("success", "Favoris has been shared to facebook", "ok", null);
+        
+        }
+        catch(FacebookException fex){System.out.println(fex);}
 
-                    ar.show();
-                }
+    }     
             });
-            
-            Button btndelete=new Button("delete");
-            
+
             btndelete.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                   ServiceAdFav s=new ServiceAdFav();
-                   s.delete(adf.getAdFav_id());
-                   DisplayFavAds dd=new DisplayFavAds(res,u);
-                   dd.show();
+                     ServiceAd s=new ServiceAd();
+                     s.delete(ad.getAd_id());
+                     DisplayAds_Provider d=new DisplayAds_Provider(res, u);
+                     d.show();
                 }
             });
 
             c1.add(imv);
             c1.add(titreE);
-            c1.add(btnMore);
             c1.add(btndelete);
+            c1.add(btnshare);
             c2.add(c1);
             add(c2);
         }
-    }} 
-        
-             /*-------------------------------------*/ 
-}
+
+                 /*-----------*/ 
+    }
 
     @Override
     protected void showOtherForm(Resources res) {
     }
 
 
+ 
 }

@@ -49,7 +49,7 @@ public class DisplayMore extends SideMenuBaseForm {
     Image img;
     ImageViewer imv;
     public static String location;
-
+    public static User u;
     public DisplayMore(Resources res,User u) {
 
         Toolbar tb = getToolbar();
@@ -93,24 +93,28 @@ public class DisplayMore extends SideMenuBaseForm {
             public void actionPerformed(ActionEvent o) {
                 location = DisplayAds.LOCATION;
                 MapsDemo maCarte = new MapsDemo();
-                maCarte.start();
+                maCarte.start(res,u);
                 System.out.println(location);
             }
         });
         
-        ButtonFav.addActionListener((e)-> {
-//         
-            ServiceAdFav sf=new ServiceAdFav();
-//            ArrayList<AdFav> listAdFav = sf.getListFav(1);
-//            for (AdFav adf : listAdFav){
-//            if(DisplayAds.ID_AD !=adf.getIdAd()){
-                sf.favorie();
-//            }
-//            
-//            else 
-//                           Dialog.show("Warrning", " Ad already exit in your favorites!!", "ok", null);            
-//            }    
-                
+        ButtonFav.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+            
+                ServiceAdFav sf=new ServiceAdFav();
+                ArrayList<AdFav> listAdFav = sf.getListFav(u.getId());
+                System.out.println(listAdFav);
+                 if(sf.check(DisplayAds.ID_AD).isEmpty()){
+                    sf.favorie(u.getId());
+                    Dialog.show("SuccÃ©s", "Favoris has been add to your favorites", "ok", null);   
+                }
+                else {
+
+                    Dialog.show("Error", "Favoris existe in your favorites", "ok", null);  
+                }
+                 
+            }
         });
 
         titleComponent.setUIID("BottomPaddingContainer");
@@ -153,6 +157,12 @@ public class DisplayMore extends SideMenuBaseForm {
     @Override
     protected void showOtherForm(Resources res) {
     }
+    
+
+    
+    
+    
+    
 
 
 

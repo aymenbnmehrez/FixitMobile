@@ -31,6 +31,7 @@ import com.codename1.maps.layers.PointLayer;
 import com.codename1.maps.layers.PointsLayer;
 import com.codename1.ui.Button;
 import com.codename1.ui.Command;
+import static com.codename1.ui.Component.MOVE_CURSOR;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.FontImage;
@@ -66,8 +67,8 @@ import java.util.StringTokenizer;
  *
  * @author Chen
  */
-public class MapsDemo extends Form {
- public static String lat;
+public class MapsDemoForFav extends Form {
+    public static String lat;
     public static String lon;
     private Coord lastLocation;
 
@@ -110,7 +111,7 @@ public class MapsDemo extends Form {
         backb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                DisplayMore aa = new DisplayMore(res, u);
+                DisplayMoreFav aa = new DisplayMoreFav(res, u);
                 aa.showBack();
             }
         });

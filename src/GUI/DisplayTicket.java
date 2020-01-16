@@ -25,18 +25,19 @@ public class DisplayTicket {
      
         f = new Form(BoxLayout.y());
         c=new Container(BoxLayout.y());
-          TicketService p=new TicketService();
-        for(i=0;i<p.getList2().size();i++)
-        {
-            SpanLabel lb = new SpanLabel((p.getList2().get(i).getStatus()));
-            SpanLabel lb1 = new SpanLabel((p.getList2().get(i).getDateTicket()));
-           SpanLabel lb2 = new SpanLabel((p.getList2().get(i).getDescription()));
-              c.add(lb);
-              c.add(lb1);
-             c.add(lb2);
-
-        }
-       f.add(c);}
+//          TicketService p=new TicketService();
+//        for(i=0;i<p.getList2().size();i++)
+//        {
+//            SpanLabel lb = new SpanLabel((p.getList2().get(i).getStatus()));
+//            SpanLabel lb1 = new SpanLabel((p.getList2().get(i).getDateTicket()));
+//           SpanLabel lb2 = new SpanLabel((p.getList2().get(i).getDescription()));
+//              c.add(lb);
+//              c.add(lb1);
+//             c.add(lb2);
+//
+//        }
+//       f.add(c);
+      }
        public Form getF() {
         return f;
     }

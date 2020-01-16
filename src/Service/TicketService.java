@@ -19,6 +19,7 @@ import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,16 +29,17 @@ import java.util.Map;
  * @author user
  */
 public class TicketService {
+
     public Ticket getFSubjectById(int id) {
         Ticket an = new Ticket();
 
         ConnectionRequest con = new ConnectionRequest();
         con.setUrl("http://localhost/fixit/web/app_dev.php/client/ticket/" + Integer.toString(id));
- 
+
         NetworkManager.getInstance().addToQueueAndWait(con);
         return an;
-    } 
-   
+    }
+
     ArrayList<Ticket> details = new ArrayList<>();
 
     public ArrayList<Ticket> getDetails2(int id) {
@@ -53,8 +55,8 @@ public class TicketService {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return details;
     }
-    
- public ArrayList<Ticket >parseListTaskJson(String json) {
+
+    public ArrayList<Ticket> parseListTaskJson(String json) {
 
         ArrayList<Ticket> listTasks = new ArrayList<>();
 
@@ -87,15 +89,17 @@ public class TicketService {
                 Ticket e = new Ticket();
 
                 float id = Float.parseFloat(obj.get("id").toString());
-               // float price = Float.parseFloat(obj.get("price").toString());
-               
+                // float price = Float.parseFloat(obj.get("price").toString());
+                //   float idCat = Float.parseFloat(obj.get("categoryt").toString());
+
                 e.setIdTicket((int) id);
                 e.setStatus(obj.get("status").toString());
                 e.setDescription(obj.get("description").toString());
-              //  e.setImage(obj.get("image").toString());
-                //e.setStatus(obj.get("status").toString());
-              
+                e.setDateTicket(new Date((((Double) ((Map<String, Object>) (obj.get("dateTicket"))).get("timestamp")).longValue() * 1000)));
 
+                //  e.setCateg((int) idCat);
+                //  e.setImage(obj.get("image").toString());
+                //e.setStatus(obj.get("status").toString());
                 System.out.println(e);
 //LinkedHashMap<String,Object> obj1 =  (LinkedHashMap<String,Object>) obj.get("id") ;
 //           int pos = 1;
@@ -118,12 +122,12 @@ public class TicketService {
         return listTasks;
 
     }
-    
+
     ArrayList<Ticket> listTasks = new ArrayList<>();
-    
-    public ArrayList<Ticket> getList2(){       
+
+    public ArrayList<Ticket> getList2() {
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixit/web/app_dev.php/client/ticket/all");  
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/ticket/all");
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -134,6 +138,7 @@ public class TicketService {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return listTasks;
     }
+
     private ArrayList<Ticket> getDetails(String json) {
         ArrayList<Ticket> details = new ArrayList<>();
 
@@ -143,23 +148,23 @@ public class TicketService {
             Map<String, Object> obj = j.parseJSON(new CharArrayReader(json.toCharArray()));
 
             Ticket form = new Ticket();
-                        float id = Float.parseFloat(obj.get("id").toString());
-                        
-                        form.setIdTicket((int) id);
-                        System.out.println(form);
-                        details.add(form);
+            float id = Float.parseFloat(obj.get("id").toString());
 
+            form.setIdTicket((int) id);
             
+            System.out.println(form);
+            details.add(form);
 
         } catch (IOException ex) {
         }
-     
+
         return details;
 
     }
+
     public void ajoutticket(Ticket r) {
         ConnectionRequest con = new ConnectionRequest();
-        String Url = "http://localhost/fixit/web/app_dev.php/client/ticket/add?&"+ "&description=" + r.getDescription()+ "&sender=" + r.getSender()+"&provider=" +r.getProvider()+ "&status="+ r.getStatus()+ "&image="+ r.getImage();
+        String Url = "http://localhost/fixit/web/app_dev.php/client/ticket/add?&" + "&description=" + r.getDescription() + "&sender=" + r.getSender() + "&provider=" + r.getProvider() + "&status=" + r.getStatus() + "&image=" + r.getImage();
         con.setUrl(Url);
         System.out.println("tt");
         con.addResponseListener((e) -> {
@@ -168,9 +173,10 @@ public class TicketService {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
+
     public void delete(int id) {
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/fixit/web/app_dev.php/client/ticket/delete/" +Integer.toString(id) );
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/ticket/delete/" + Integer.toString(id));
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -180,5 +186,49 @@ public class TicketService {
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
     
-}
+//     public void displayTicket(int id) {
+//        ConnectionRequest con = new ConnectionRequest();
+//        con.setUrl("http://localhost/fixit/web/app_dev.php/client/afficheCtik/"+id);
+//        con.addResponseListener(new ActionListener<NetworkEvent>() {
+//            @Override
+//            public void actionPerformed(NetworkEvent evt) {
+//
+//            }
+//        });
+//        NetworkManager.getInstance().addToQueueAndWait(con);
+//    }
+//     
+     
+     ArrayList<Ticket> listTaskss = new ArrayList<>();
 
+    public ArrayList<Ticket> displayTicket(int id) {
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/fixit/web/app_dev.php/client/afficheCtik/"+id);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                TicketService ser = new TicketService();
+                listTaskss = ser.parseListTaskJson(new String(con.getResponseData()));
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return listTaskss;
+    }
+
+    public void ajoutTicket(String c , int id,int idUser) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion 
+       
+        String Url = "http://localhost/fixit/web/app_dev.php/client/ajoutik/"+c+"/"+id+"/"+idUser;// création de l'URL
+        
+        con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());//Récupération de la réponse du serveur
+            System.out.println(str);//Affichage de la réponse serveur sur la console
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+    }
+    
+    
+}
